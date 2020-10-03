@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const tokenUtil = require('../utils/token.js')
 const User = require('../models/user')
-const Post = require('../models/post')
 
 usersRouter.get('/', async (request, response) => {
   const users = await User.find({})
@@ -36,30 +35,7 @@ usersRouter.post('/login', async (request, response) => {
       token,
       id: user.id, 
       username: user.username, 
-      name: user.name, 
-      avatar: user.avatar, 
-      follows: user.follows,
-      posts: user.posts, 
-      followers: user.followers })
-})
-
-usersRouter.get('/suggested', async (request, response) => {
-  const users = await User.aggregate([{ $sample: { size: 4 } }])
-
-  var result = users.map((user) => {
-    return {
-      id: user._id,
-      name: user.name,
-      username: user.username,
-      avatar: user.avatar,
-      follows: user.follows,
-      posts: user.posts
-    }
-  })
-
-  response
-    .status(200)
-    .send(result)
+      name: user.name})
 })
 
 usersRouter.post('/register', async (request, response) => {
@@ -71,7 +47,6 @@ usersRouter.post('/register', async (request, response) => {
   const user = new User({
     username: body.username,
     name: body.name,
-    avatar: "http://robohash.org/" + body.username,
     passwordHash,
   })
 
@@ -91,11 +66,7 @@ usersRouter.post('/register', async (request, response) => {
         token,
         id: savedUser.id, 
         username: savedUser.username, 
-        name: savedUser.name, 
-        avatar: savedUser.avatar, 
-        follows: savedUser.follows,
-        posts: savedUser.posts, 
-        followers: savedUser.followers })
+        name: savedUser.name})
   } 
   catch (error) {
     return response.status(500).send({error: error.message})
@@ -118,40 +89,11 @@ usersRouter.put('/:username', async (request, response) => {
 
 usersRouter.get('/:username', async (request, response) => {
   const user = await User.findOne({username: request.params.username})
-  const posts = await Post.countDocuments({authorUsername: request.params.username});
-  const followers = await User.countDocuments({follows: request.params.username})
 
   response.json({
     id: user.id,
     username: user.username, 
-    name: user.name, 
-    avatar: user.avatar,
-    posts: posts, 
-    follows: user.follows,
-    followers: followers})
-})
-
-usersRouter.get('/:username/suggested', async (request, response) => {
-  const user = await User.findOne({username: request.params.username})
-  const filter = { username: {$nin: [user.username, ...user.follows]}}
-  const users = await User.aggregate([
-    { $match: filter },
-    { $sample: { size: 4 } }])
-
-  var result = users.map((user) => {
-      return {
-        id: user._id,
-        name: user.name,
-        username: user.username,
-        avatar: user.avatar,
-        follows: user.follows,
-        posts: user.posts
-      }
-    })
-
-    response
-      .status(200)
-      .send(result)
+    name: user.name})
 })
 
 usersRouter.put('/:username/profile', async (request, response) => {
@@ -174,7 +116,6 @@ usersRouter.put('/:username/profile', async (request, response) => {
 
   try{
     currentUser.name = body.name
-    currentUser.avatar = body.avatar
     currentUser.passwordHash = passwordHash
     const savedUser = await currentUser.save()
 
@@ -190,11 +131,7 @@ usersRouter.put('/:username/profile', async (request, response) => {
         token,
         id: savedUser.id, 
         username: savedUser.username, 
-        name: savedUser.name, 
-        avatar: savedUser.avatar, 
-        follows: savedUser.follows,
-        posts: savedUser.posts, 
-        followers: savedUser.followers })
+        name: savedUser.name})
   } 
   catch (error) {
     return response.status(500).send({error: error.message})

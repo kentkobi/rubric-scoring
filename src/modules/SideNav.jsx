@@ -16,10 +16,9 @@ const UserSideNav = ({user, setUser}) => {
         <div>
             {user && user.name &&
                 <div className="list-group list-group-flush">
-                    <Link to="/" className="list-group-item list-group-item-action bg-dark text-primary"><FaHome /> EXPLORE</Link>
-                    <Link to={`/${user.username}/follows`} className="list-group-item list-group-item-action bg-dark text-primary"><FaPlus /> FOLLOWS</Link>
-                    <Link to={`/${user.username}/likes`} className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> LIKES</Link>
-                    <Link to={`/mentions/${user.username}`} className="list-group-item list-group-item-action bg-dark text-primary"><FaAt /> MENTIONED</Link>
+                    <Link to="/" className="list-group-item list-group-item-action bg-dark text-primary"><FaHome /> SCORING</Link>
+                    <Link to={`/${user.username}/likes`} className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> SCORES</Link>
+                    <Link to={`/mentions/${user.username}`} className="list-group-item list-group-item-action bg-dark text-primary"><FaAt /> CONFIG</Link>
                     <Link to="/profile" className="list-group-item list-group-item-action bg-dark text-primary"><FaUserEdit /> PROFILE</Link>
                     <a className="list-group-item list-group-item-action bg-dark text-primary" href="/logout" onClick={e => logOut(e)}><RiLogoutCircleLine /> LOG OUT</a>
                 </div>

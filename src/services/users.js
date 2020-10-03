@@ -18,13 +18,6 @@ const getByUsername = async (username) => {
     return response.data
 }
 
-const getSuggestedFollows = async (username) => {
-    const url = (username) ? baseURL + "/" + username + "/suggested" : baseURL + "/suggested"
-    const response = await axios.get(url)
-
-    return response.data
-}
-
 const login = async ({username, password}) => {
     const response = await axios.post(baseURL + '/login', {username, password})
     window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
@@ -74,4 +67,4 @@ const logout = () => {
     tokenService.setToken(null)
 }
 
-export default {getAll, getByUsername, getSuggestedFollows, login, register, edit, update, logout} 
+export default {getAll, getByUsername, login, register, edit, update, logout} 

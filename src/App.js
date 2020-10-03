@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from "react";
 
 /* services */
-import postService from './services/posts'
+import scoreCardsService from './services/scorecards'
+import scoresService from './services/scores'
 
 /* components */
-import UserCardCompact from "./components/UserCardCompact"
-import PostList from "./components/PostList"
+import ScoreCard from "./components/ScoreCard"
+import ScoreCardForm from "./components/ScoreCardForm"
+import ProfileForm from "./components/ProfileForm"
+import RegisterForm from "./components/RegisterForm"
+import ResultList from "./components/ResultList"
 
 /* modules */
 import SideNav from "./modules/SideNav"
 import Navbar from "./modules/Navbar"
-import TrendingTags from "./modules/TrendingTags"
-import WhoToFollow from "./modules/WhoToFollow"
-
-/* user content sections */
-import Explore from "./pages/Explore"
-import Profile from "./pages/Profile"
-import EditProfile from "./pages/EditProfile"
-import Follows from "./pages/Follows"
-import Likes from "./pages/Likes"
-import SignUp from "./pages/SignUp"
 
 import {
   BrowserRouter as Router,
@@ -30,10 +24,24 @@ import {
 
 
 const App = () => {
-  
-  const [posts, setPosts] = useState([])
   const [user, setUser] = useState(null)
+  const [results, setResults] = useState([])
+  const [scoreCard, setScoreCard] = useState([])
 
+  const addResult = (newPost) => {
+    scoresService.create(newPost, user)
+      .then(data => {
+        setResults([data, ...results])
+      })
+  }
+
+  const updateScoreCard = (scoreCard) => {
+    scoreCardsService.update(scoreCard, user)
+      .then(data => {
+        setScoreCard(data)
+      })
+  }
+  
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
     if (loggedInUserJSON) {
@@ -42,19 +50,17 @@ const App = () => {
     }
   }, [])
 
-  const addPost = (newPost) => {
-    postService.create(newPost, user)
-      .then(data => {
-        setPosts([data, ...posts])
-      })
-  }
-
   useEffect(() => {
-    postService.getAll()
-    .then((posts) => {
-        setPosts(posts)
-    })
-  }, [])
+    scoreCardsService.getByCompany(user.company)
+      .then((scorecard) => {
+          setScoreCard(scorecard)
+      })
+
+    scoresService.getByCompany(user.company)
+      .then((results) => {
+          setResults(results)
+      })
+  }, [user])
 
   return (
       <Router>
@@ -62,44 +68,30 @@ const App = () => {
           <div className="row min-vh-100">
           
             <nav id="site-sidenav" className="col-md-2 p-0 bg-dark flex-grow-1">
-              {user !== null  && <UserCardCompact user={user}/>}
+              {user !== null  && <UserCard user={user}/>}
               <SideNav user={user} setUser={setUser}/>
             </nav>
             
             <main className="col p-0 bg-light">
               <Navbar user={user} setUser={setUser} />
               <Switch>
+                <Route path="/score">
+                  {user === null ? <Redirect to="/register" /> : <ScoreCard user={user} scoreCard={scoreCard} addResult={addResult} />}
+                </Route>
+                <Route path="/setup">
+                  {user === null ? <Redirect to="/register" /> : <ScoreCardForm user={user} scoreCard={scoreCard} updateScoreCard={updateScoreCard} />}
+                </Route>
                 <Route path="/profile">
-                  {user === null ? <Redirect to="/register" /> : <EditProfile user={user} setUser={setUser}/>}
+                  {user === null ? <Redirect to="/register" /> : <ProfileForm user={user} setUser={setUser}/>}
                 </Route>
                 <Route path="/register">
-                  {user !== null ? <Redirect to="/" /> : <SignUp user={user} setUser={setUser}/>}
-                </Route>
-                <Route path="/tags/:tag">
-                  <PostList posts={posts} user={user}/>
-                </Route>
-                <Route path="/mentions/:mention">
-                  <PostList posts={posts} user={user}/>
-                </Route>
-                <Route path="/users/:username">
-                  <Profile user={user} setUser={setUser} addPost={addPost}/>
-                </Route>
-                <Route path="/:username/follows">
-                  <Follows user={user} setUser={setUser} addPost={addPost}/>
-                </Route>
-                <Route path="/:username/likes">
-                  <Likes user={user} setUser={setUser} addPost={addPost}/>
+                  {user !== null ? <Redirect to="/" /> : <RegisterForm user={user} setUser={setUser}/>}
                 </Route>
                 <Route path="/">
-                  <Explore user={user} setUser={setUser} posts={posts} setPosts={setPosts} addPost={addPost}/>
+                  {user === null ? <Redirect to="/register" /> : <ResultList user={user} results={results} setResults={setResults} />}
                 </Route>
               </Switch>
             </main>
-
-            <aside className="col-md-3 p-0 bg-light border-left">
-              <WhoToFollow user={user} setUser={setUser}/>
-              <TrendingTags/>
-            </aside>
           </div>
         </div>
       </Router>

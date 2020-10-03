@@ -7,10 +7,6 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     name: String, 
-    follows: { type : Array , "default" : [] },
-    avatar: String,
-    followers: { type : Number , "default" : 0 },
-    posts: { type : Number , "default" : 0 },
     passwordHash: String
 })
 

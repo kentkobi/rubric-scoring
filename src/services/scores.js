@@ -1,23 +1,13 @@
 import axios from 'axios'
 import tokenService from '../utils/token.js'
-const baseURL = "/api/posts"
+const baseURL = "/api/scores"
 
 /**
  * Get a list of all unitsfrom the api
  * @return {Promise}    Promise that will resolve to the response data
  */
-const getByUsername = (username) => {
-    return axios.get(baseURL + "/user/" + username)
-                .then(response => response.data)
-}
-
-const getFollowedBy = (username) => {
-    return axios.get(baseURL + "/user/" + username + "/follows")
-                .then(response => response.data)
-}
-
-const getLikesBy = (username) => {
-    return axios.get(baseURL + "/user/" + username + "/likes")
+const getByCompany = (company) => {
+    return axios.get(baseURL + "/company/" + company)
                 .then(response => response.data)
 }
 
@@ -27,15 +17,6 @@ const getLikesBy = (username) => {
  */
 const getAll = () => {
     return axios.get(baseURL)
-                .then(response => response.data)
-}
-
-/**
- * Get a list of all unitsfrom the api
- * @return {Promise}    Promise that will resolve to the response data
- */
-const getPopular = () => {
-    return axios.get(baseURL + "/most/popular")
                 .then(response => response.data)
 }
 
@@ -89,4 +70,4 @@ const del = (id) => {
                 .then(response => response.data)
 }
 
-export default {getByUsername, getFollowedBy, getLikesBy, getAll, getPopular, create, update, delete: del} 
+export default {getByCompany, getAll, create, update, delete: del} 
