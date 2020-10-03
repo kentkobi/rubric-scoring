@@ -15,10 +15,10 @@ const ResultList = ({user, results, setResults}) => {
         results = results.filter(p => p.company && p.company === company)
     }
 
-    const deleteResult = (post) => {
-        resultsService.delete(result.id, user)
+    const deleteResult = (score) => {
+        resultsService.delete(score.id, user)
             .then(data => {
-                const updatedPosts = results.filter(p => p.id !== post.id)
+                const updatedPosts = results.filter(p => p.id !== score.id)
                 setResults(updatedPosts)
             })
     }

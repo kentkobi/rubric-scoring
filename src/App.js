@@ -5,6 +5,7 @@ import scoreCardsService from './services/scorecards'
 import scoresService from './services/scores'
 
 /* components */
+import UserCard from "./components/UserCard"
 import ScoreCard from "./components/ScoreCard"
 import ScoreCardForm from "./components/ScoreCardForm"
 import ProfileForm from "./components/ProfileForm"
@@ -51,15 +52,17 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    scoreCardsService.getByCompany(user.company)
-      .then((scorecard) => {
-          setScoreCard(scorecard)
-      })
+    if(user && user.company) {
+      scoreCardsService.getByCompany(user.company)
+        .then((scorecard) => {
+            setScoreCard(scorecard)
+        })
 
-    scoresService.getByCompany(user.company)
-      .then((results) => {
-          setResults(results)
-      })
+      scoresService.getByCompany(user.company)
+        .then((results) => {
+            setResults(results)
+        })
+    }
   }, [user])
 
   return (

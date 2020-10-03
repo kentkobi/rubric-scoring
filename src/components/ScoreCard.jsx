@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Rubric from './Rubric'
 
 const ScoreCard = ( {user, scoreCard, addResult} ) => {
     const [scoreCardEntry, setScoreCardEntry] = useState(scoreCard)

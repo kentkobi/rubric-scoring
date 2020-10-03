@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import CriteriaForm from './CriteriaForm'
 
-const editRubric = ({user, rubric, setRubric}) => {
+const RubricForm = ({user, rubric, setRubric}) => {
     const [errorMessage, setErrorMessage] = useState('')
      
     const addCriteria = () => {
@@ -42,4 +42,4 @@ const editRubric = ({user, rubric, setRubric}) => {
     )
 }
 
-export default editRubric
+export default RubricForm

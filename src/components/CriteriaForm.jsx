@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-const editRubricItem = ({index, criteria, removeCriteria}) => {
+const CriteriaForm = ({index, criteria, removeCriteria}) => {
     const [name, setName] = useState(criteria.name||'')
     const [description, setDescription] = useState(criteria.description||'')
     const [weighting, setWeighting] = useState(criteria.weighting||10)
@@ -15,4 +15,4 @@ const editRubricItem = ({index, criteria, removeCriteria}) => {
     )
 }
 
-export default editRubricItem
+export default CriteriaForm

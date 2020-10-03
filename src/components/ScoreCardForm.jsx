@@ -20,7 +20,6 @@ const ScoreCard = ( {user, scoreCard, setScoreCard} ) => {
     }
 
     const handleSubmit = (event) => {
-        console.log(score);
         event.preventDefault();
     }
 
