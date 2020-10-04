@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 const scoreCardSchema = new mongoose.Schema({
   created: Date,
@@ -15,5 +14,5 @@ scoreCardSchema.set('toJSON', {
     }
 })
 
-const ScoreCard = mongoose.model('Score', scoreCardSchema)
+const ScoreCard = mongoose.model('ScoreCard', scoreCardSchema)
 module.exports = ScoreCard 

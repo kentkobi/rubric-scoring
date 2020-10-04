@@ -16,8 +16,8 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 app.use(express.static('build'))
 app.use('/api/users', usersRouter)
-app.use('/api/scorecards', scorecardsRouter)
 app.use('/api/scores', scoresRouter)
+app.use('/api/scorecards', scorecardsRouter)
 app.use(middleware.errorMiddleware)
 
 app.get('/*', function(req, res) {
