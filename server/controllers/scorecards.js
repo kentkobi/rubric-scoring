@@ -28,7 +28,6 @@ scoreCardsRouter.post('/', async (req, res) => {
   }
 
   const newScore = new ScoreCard({
-    team: body.team,
     rubrics: body.rubrics,
     created: new Date(),
     user: token.id,
@@ -50,21 +49,35 @@ scoreCardsRouter.put('/:id', (req, res) => {
   }
 
   const newScoreCard = {
-      content: req.body.rubrics
+    rubrics: req.body.rubrics
   }
 
   ScoreCard.findByIdAndUpdate(req.params.id, newScoreCard, {new: true, useFindAndModify: false})
-    .sort({"created": -1})
     .then(result => {
+        console.log(result)
         res.json(result)
     })
 })
 
 scoreCardsRouter.get('/company/:company', async (request, response) => {
-  const scores = await ScoreCard.find({company: request.params.company})
-    .sort({"created": -1});
-      
-  return response.json(scores)
+  const scoreCard = await ScoreCard.findOne({company: request.params.company});
+
+console.log(scoreCard)
+
+  if(scoreCard){
+    return response.json(scoreCard)
+  } else {
+    const newScoreCard = new ScoreCard({
+      created: new Date(),
+      company: request.params.company
+    })
+    
+    newScoreCard.save()
+      .then(result => {
+        response.json(result)
+      })
+  }
+  
 })
 
 module.exports = scoreCardsRouter

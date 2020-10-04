@@ -11,6 +11,30 @@ const getByCompany = (company) => {
                 .then(response => response.data)
 }
 
+const addRubric = (scorecard, rubric) => {
+    const token = tokenService.getToken()
+
+    if (!token) {
+        console.log("no token!")
+        return new Promise(() => null)
+    }
+
+    return axios.put(baseURL + "/" + scorecard.id + "/rubric", rubric, tokenService.getConfig())
+                .then(response => response.data)
+}
+
+const addCriteria = (scorecard, rubric, criteria) => {
+    const token = tokenService.getToken()
+
+    if (!token) {
+        console.log("no token!")
+        return new Promise(() => null)
+    }
+
+    return axios.put(baseURL + "/" + scorecard.id + "/" + rubric, criteria, tokenService.getConfig())
+                .then(response => response.data)
+}
+
 /**
  * Get a list of all unitsfrom the api
  * @return {Promise}    Promise that will resolve to the response data
@@ -70,4 +94,4 @@ const del = (id) => {
                 .then(response => response.data)
 }
 
-export default {getByCompany, getAll, create, update, delete: del} 
+export default {getByCompany, addRubric, addCriteria, getAll, create, update, delete: del} 

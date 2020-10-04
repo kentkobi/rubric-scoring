@@ -26,8 +26,8 @@ const login = async ({username, password}) => {
     return response.data
 }
 
-const register = async ({name, username, password}) => {
-    const response = await axios.post(baseURL + '/register', {name, username, password})
+const register = async ({name, company, username, password}) => {
+    const response = await axios.post(baseURL + '/register', {name, company, username, password})
     window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
     tokenService.setToken(response.data.token)
 

@@ -13,6 +13,9 @@ const ScoreCard = ( {user, scoreCard, addResult} ) => {
     
     return (
         <form onSubmit={formHandler}>
+            <input type='hidden' name="judge" defaultVaue={user.name} />
+            <input type='hidden' name="company" defaultVaue={user.company} />
+            <input type='text' name="team" defaultVaue={scoreCard.team || ""} />
             <div className="input-group input-group-lg mb-3">
                 {scoreCardEntry.rubrics && scoreCardEntry.rubrics.map((rubric) => (
                     <Rubric key={rubric.id} rubric={rubric} user={user}/>

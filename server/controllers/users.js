@@ -84,7 +84,8 @@ usersRouter.get('/:username', async (request, response) => {
   response.json({
     id: user.id,
     username: user.username, 
-    name: user.name})
+    name: user.name,
+    company: user.company})
 })
 
 usersRouter.put('/:username/profile', async (request, response) => {

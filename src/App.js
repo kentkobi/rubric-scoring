@@ -27,7 +27,7 @@ import {
 const App = () => {
   const [user, setUser] = useState(null)
   const [results, setResults] = useState([])
-  const [scoreCard, setScoreCard] = useState([])
+  const [scoreCard, setScoreCard] = useState({})
 
   const addResult = (newPost) => {
     scoresService.create(newPost, user)
@@ -55,7 +55,7 @@ const App = () => {
     if(user && user.company) {
       scoreCardsService.getByCompany(user.company)
         .then((scorecard) => {
-            setScoreCard(scorecard)
+            setScoreCard(scorecard)  
         })
 
       scoresService.getByCompany(user.company)
@@ -82,7 +82,7 @@ const App = () => {
                   {user === null ? <Redirect to="/register" /> : <ScoreCard user={user} scoreCard={scoreCard} addResult={addResult} />}
                 </Route>
                 <Route path="/setup">
-                  {user === null ? <Redirect to="/register" /> : <ScoreCardForm user={user} scoreCard={scoreCard} updateScoreCard={updateScoreCard} />}
+                  {user === null ? <Redirect to="/register" /> : <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />}
                 </Route>
                 <Route path="/profile">
                   {user === null ? <Redirect to="/register" /> : <ProfileForm user={user} setUser={setUser}/>}

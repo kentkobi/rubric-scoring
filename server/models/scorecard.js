@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const scoreCardSchema = new mongoose.Schema({
   created: Date,
+  company: String,
   rubrics: { type : Array , "default" : [] },
 })
   
