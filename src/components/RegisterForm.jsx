@@ -6,13 +6,14 @@ import tokenUtil from '../utils/token'
 const RegisterForm = ({user, setUser}) => {
     const [errorMessage, setErrorMessage] = useState('')
     const [name, setName] = useState('')
+    const [company, setCompany] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     const formHandler = (event) => {
       event.preventDefault()
     
-      userService.register({name, username, password})
+      userService.register({name, company, username, password})
         .then(data => {
             tokenUtil.setToken(data.token)
             setUser(data)
@@ -44,7 +45,7 @@ const RegisterForm = ({user, setUser}) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="name">Company</label>
-                    <input type="text" className="form-control" name="company" onChange={e => setName(e.target.value)}  placeholder="Company" required/>
+                    <input type="text" className="form-control" name="company" onChange={e => setCompany(e.target.value)}  placeholder="Company" required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="username">Username</label>
