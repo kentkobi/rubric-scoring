@@ -49,7 +49,7 @@ usersRouter.post('/register', async (request, response) => {
   const user = new User({
     username: body.username,
     name: body.name,
-    company: user.company,
+    company: body.company,
     passwordHash,
   })
 
@@ -70,7 +70,7 @@ usersRouter.post('/register', async (request, response) => {
         token,
         id: savedUser.id, 
         username: savedUser.username, 
-        company: user.company,
+        company: savedUser.company,
         name: savedUser.name})
   } 
   catch (error) {
