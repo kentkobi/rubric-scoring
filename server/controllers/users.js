@@ -122,6 +122,7 @@ usersRouter.put('/:username/profile', async (request, response) => {
         token,
         id: savedUser.id, 
         username: savedUser.username, 
+        comany: savedUser.company, 
         name: savedUser.name})
   } 
   catch (error) {
