@@ -3,7 +3,7 @@ import Criteria from './Criteria'
 
 const Rubric = ( {rubric, addResult} ) => {
     return (
-        <div className="input-group input-group-lg mb-3">
+        <div className="mb-3">
             <h3>{rubric.name}</h3>
             {rubric.criterias && rubric.criterias.map((criteria) => (
                 <Criteria key={criteria.id} criteria={criteria} />
