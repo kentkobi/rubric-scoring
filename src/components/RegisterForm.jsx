@@ -43,6 +43,10 @@ const RegisterForm = ({user, setUser}) => {
                     <input type="text" className="form-control" name="name" onChange={e => setName(e.target.value)}  placeholder="Name" required/>
                 </div>
                 <div className="form-group">
+                    <label htmlFor="name">Company</label>
+                    <input type="text" className="form-control" name="company" onChange={e => setName(e.target.value)}  placeholder="Company" required/>
+                </div>
+                <div className="form-group">
                     <label htmlFor="username">Username</label>
                     <input type="text" className="form-control" name="username" onChange={e => setUsername(e.target.value)}  placeholder="Username" required/>
                 </div>

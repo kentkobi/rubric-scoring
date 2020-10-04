@@ -24,6 +24,7 @@ usersRouter.post('/login', async (request, response) => {
 
   const userForToken = {
     username: user.username,
+    company: user.company,
     id: user._id,
   }
 
@@ -35,6 +36,7 @@ usersRouter.post('/login', async (request, response) => {
       token,
       id: user.id, 
       username: user.username, 
+      company: user.company,
       name: user.name})
 })
 
@@ -47,6 +49,7 @@ usersRouter.post('/register', async (request, response) => {
   const user = new User({
     username: body.username,
     name: body.name,
+    company: user.company,
     passwordHash,
   })
 
@@ -55,6 +58,7 @@ usersRouter.post('/register', async (request, response) => {
 
     const userForToken = {
       username: user.username,
+      company: user.company,
       id: user._id,
     }
   
@@ -66,25 +70,12 @@ usersRouter.post('/register', async (request, response) => {
         token,
         id: savedUser.id, 
         username: savedUser.username, 
+        company: user.company,
         name: savedUser.name})
   } 
   catch (error) {
     return response.status(500).send({error: error.message})
   }
-})
-
-usersRouter.put('/:username', async (request, response) => {
-  const followers = await User.countDocuments({follows: request.params.username})
-
-  const newUser = {
-    follows: request.body.follows,
-    followers: followers
-  }
-
-  User.findOneAndUpdate({username: request.params.username}, newUser, {new: true, useFindAndModify: false})
-    .then(result => {
-        response.json(result)
-    })
 })
 
 usersRouter.get('/:username', async (request, response) => {
