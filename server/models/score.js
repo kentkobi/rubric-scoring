@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 const scoreSchema = new mongoose.Schema({
   created: Date,
   team: String,
-  criterias: { type : Array , "default" : [] },
+  scores: { type : Array , "default" : [] },
   score: Number,
-  judge: String
+  submitted: String,
+  company: String
 })
 
-scoreSchema.virtual('author', {
+scoreSchema.virtual('judge', {
   ref: 'User',
-  localField: 'judge',
+  localField: 'submitted',
   foreignField: 'username',
   justOne: true
 });

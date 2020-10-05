@@ -21,20 +21,40 @@ scoresRouter.post('/', async (req, res) => {
   
   const body = req.body
 
-  if (body.content === undefined) {
-    return res.status(400).json({error: 'content missing'})
+  if (body.team === undefined) {
+    return res.status(400).json({error: 'team missing'})
+  }
+  if (body.scores === undefined) {
+    return res.status(400).json({error: 'scores missing'})
+  }
+  if (body.judge === undefined) {
+    return res.status(400).json({error: 'judge missing'})
   }
 
+  // grab all the criterias...
+  let criterias = body.scores.rubrics.map(function(rubric){
+    return rubric.criterias
+  })
+
+  // and calculate the judges total score
+  let totalScore = []
+    .concat(...criterias)
+    .map(criteria => criteria.score)
+    .reduce((accumulator, score) => accumulator + parseInt(score), 0);
+
   const newScore = new Score({
-    judge: token.username,
+    submitted: body.judge,
     team: body.team,
-    rubrics: body.rubrics,
+    scores: body.scores,
     created: new Date(),
+    score: totalScore,
     user: token.id,
   })
 
+  console.log(newScore)
+
   newScore.save()
-    .then(p => p.populate('judge').execPopulate()).sort({"created": -1})
+    .then(p => p.populate('judge').execPopulate())
     .then(result => {
       res.json(result)
   })

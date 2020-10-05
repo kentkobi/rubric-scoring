@@ -3,19 +3,21 @@ import Rubric from './Rubric'
 
 const ScoreCard = ( {user, scoreCard, addResult} ) => {
     const [scoreCardEntry, setScoreCardEntry] = useState(scoreCard)
+    const [teamName, setTeamName] = useState(scoreCard.team || "")
 
     const formHandler = (event) => {
         event.preventDefault()
 
-        addResult( scoreCardEntry )
-        setScoreCardEntry(scoreCard)
+        addResult(teamName, user, scoreCardEntry)
+        /*addResult( {
+            scoreCardEntry 
+        })*/
+        //setScoreCardEntry(scoreCard)
     }
     
     return (
         <form onSubmit={formHandler}>
-            <input type='hidden' name="judge" defaultVaue={user.name} />
-            <input type='hidden' name="company" defaultVaue={user.company} />
-            <input type='text' name="team" defaultVaue={scoreCard.team || ""} />
+            <input type='text' name="team" value={teamName} onChange={e => setTeamName(e.target.value)}/>
             <div className="mb-3">
                 {scoreCardEntry.rubrics && scoreCardEntry.rubrics.map((rubric) => (
                     <Rubric key={rubric.id} rubric={rubric} user={user}/>

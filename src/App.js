@@ -22,6 +22,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom"
+import { RiContactsBookLine } from "react-icons/ri";
 
 
 const App = () => {
@@ -29,8 +30,15 @@ const App = () => {
   const [results, setResults] = useState([])
   const [scoreCard, setScoreCard] = useState({})
 
-  const addResult = (newPost) => {
-    scoresService.create(newPost, user)
+  const addResult = (team, judge, scores) => {
+    const scoreEntry = {
+      judge: judge.username,
+      company: scores.company,
+      team: team,
+      scores: scores
+    }
+
+    scoresService.create(scoreEntry)
       .then(data => {
         setResults([data, ...results])
       })
