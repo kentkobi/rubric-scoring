@@ -101,12 +101,23 @@ scoresRouter.get('/company/:company/results', async (request, response) => {
         as: "judge"
       }
     },
+    {
+      $project: {
+        "judge.passwordHash": 0,
+        "judge.__v": 0,
+        "judge._id": 0,
+        "breakdown._id": 0,
+      }
+    },
     {$group: {
         _id: "$team",
         team: { $first: "$team" },
         count: { $sum: 1 }, 
         total: { $sum: "$score"},
-        breakdown : { $push: { id: "$_id", judge: "$judge", score: "$score" }}
+        breakdown : { $push: { 
+          id: "$_id", 
+          judge: { "$arrayElemAt": [ "$judge", 0 ] }, 
+          score: "$score" }}
       }
     },
     {$sort: {"total": -1}}
