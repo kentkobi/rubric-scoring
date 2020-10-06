@@ -15,6 +15,13 @@ scoreSchema.virtual('judge', {
   foreignField: 'username',
   justOne: true
 });
+
+scoreSchema.virtual('judges', {
+  ref: 'User',
+  localField: 'company',
+  foreignField: 'company',
+  justOne: false
+});
   
 scoreSchema.set('toJSON', {
     virtuals: true,

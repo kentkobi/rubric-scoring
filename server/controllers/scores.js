@@ -43,11 +43,12 @@ scoresRouter.post('/', async (req, res) => {
     .reduce((accumulator, score) => accumulator + parseInt(score), 0);
 
   const newScore = new Score({
+    created: new Date(),
     submitted: body.judge,
     team: body.team,
     scores: body.scores,
-    created: new Date(),
     score: totalScore,
+    company: body.company,
     user: token.id,
   })
 
@@ -81,8 +82,11 @@ scoresRouter.put('/:id', (req, res) => {
 
 scoresRouter.get('/company/:company', async (request, response) => {
   const scores = await Score.find({company: request.params.company})
-    .populate('judge').sort({"created": -1});
+    .populate('judge')
+    .populate('judges')
+    .sort({"created": -1});
       
+  console.log('wtf')
   return response.json(scores)
 })
 

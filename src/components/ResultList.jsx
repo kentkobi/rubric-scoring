@@ -23,10 +23,12 @@ const ResultList = ({user, results, setResults}) => {
             })
     }
 
+    console.log(results)
+
     return(
         <ul className="list-group list-group-flush bg-white border rounded">
             {results && results.map((result) => (
-                <ResultItem key={result.id} post={result} user={user} deleteFn={deleteResult}/>
+                <ResultItem key={result.id} score={result} user={user} deleteFn={deleteResult}/>
             ))}
             {results && !results.length &&
                 <li className="list-group-item text-muted text-center">
