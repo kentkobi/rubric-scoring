@@ -3,6 +3,7 @@ require('dotenv').config()
 const scoresRouter = require('express').Router()
 const tokenUtil = require('../utils/token.js')
 const Score = require('../models/score')
+const User = require('../models/user')
 
 scoresRouter.get('/', (req, res) => {
   Score.find({}).sort({"created": -1})
@@ -83,10 +84,35 @@ scoresRouter.put('/:id', (req, res) => {
 scoresRouter.get('/company/:company', async (request, response) => {
   const scores = await Score.find({company: request.params.company})
     .populate('judge')
-    .populate('judges')
     .sort({"created": -1});
       
   console.log('wtf')
+  return response.json(scores)
+})
+
+scoresRouter.get('/company/:company/results', async (request, response) => {
+  const scores = await Score.aggregate([
+    {$match: {company: request.params.company}},
+    {
+      $lookup: {
+        from: "users",
+        localField: "submitted",
+        foreignField: "username",
+        as: "judge"
+      }
+    },
+    {$group: {
+        _id: "$team",
+        team: { $first: "$team" },
+        count: { $sum: 1 }, 
+        total: { $sum: "$score"},
+        breakdown : { $push: { id: "$_id", judge: "$judge", score: "$score" }}
+      }
+    },
+    {$sort: {"total": -1}}
+  ])
+  //await User.populate(scores, {path: "breakdown.judge"});
+
   return response.json(scores)
 })
 
