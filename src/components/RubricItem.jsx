@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import CriteriaForm from './CriteriaForm'
 import CriteriaItem from './CriteriaItem'
 import scoreCardsService from '../services/scorecards'
+import { FaTrashAlt} from "react-icons/fa";
 
 const RubricItem = ({user, index, scoreCard, rubric, setScoreCard, removeRubric}) => {
 
@@ -24,13 +25,23 @@ const RubricItem = ({user, index, scoreCard, rubric, setScoreCard, removeRubric}
 
     return (
         <div className="rubric">
-            <h3>{rubric.name||''} <input type='button' value='remove' onClick={e => removeRubric(rubric)} /></h3>
+            <div class="form-row">
+                <div class="form-group col-md-10">
+                    <h3>{rubric.name||''} </h3>
+                </div>
+                <div class="form-group col-md-2">
+                    <button className="btn btn-outline-danger" onClick={e => removeRubric(rubric)} ><FaTrashAlt /> Remove {rubric.name||''} Section</button>
+                </div>
+            </div>
+            
             <fieldset>
-                <CriteriaForm scoreCard={scoreCard} addCriteria={addCriteria}/>
+                
                 {rubric.criterias && rubric.criterias.map((criteria, i) =>   
                     <CriteriaItem key={i} index={i} criteria={criteria} removeCriteria={removeCriteria}/>
                 )}
+                <CriteriaForm scoreCard={scoreCard} addCriteria={addCriteria}/>
             </fieldset>
+            <hr />
         </div>
     )
 }

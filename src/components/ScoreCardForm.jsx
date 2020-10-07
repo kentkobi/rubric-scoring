@@ -27,10 +27,11 @@ const ScoreCard = ( {user, scoreCard, setScoreCard} ) => {
     return (
         <div>
             {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
-            <RubricForm scoreCard={scoreCard} addRubric={addRubric} user={user}/>
+            
             {scoreCard.rubrics && scoreCard.rubrics.map((rubric, i) =>   
                 <RubricItem key={i} index={i} scoreCard={scoreCard} setScoreCard={setScoreCard} rubric={rubric} removeRubric={removeRubric}/>
             )}
+            <RubricForm scoreCard={scoreCard} addRubric={addRubric} user={user}/>
         </div>
     )
 }

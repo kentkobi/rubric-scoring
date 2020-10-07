@@ -11,6 +11,11 @@ const getByCompany = (company) => {
                 .then(response => response.data)
 }
 
+const getResultsByCompany = (company) => {
+    return axios.get(baseURL + "/company/" + company + "/results")
+                .then(response => response.data)
+}
+
 /**
  * Get a list of all unitsfrom the api
  * @return {Promise}    Promise that will resolve to the response data
@@ -70,4 +75,4 @@ const del = (id) => {
                 .then(response => response.data)
 }
 
-export default {getByCompany, getAll, create, update, delete: del} 
+export default {getByCompany, getResultsByCompany, getAll, create, update, delete: del} 

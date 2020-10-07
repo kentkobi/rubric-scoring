@@ -8,6 +8,7 @@ import scoresService from './services/scores'
 import UserCard from "./components/UserCard"
 import ScoreCard from "./components/ScoreCard"
 import ScoreCardForm from "./components/ScoreCardForm"
+import ScoreResults from "./components/ScoreResults"
 import ProfileForm from "./components/ProfileForm"
 import RegisterForm from "./components/RegisterForm"
 import ResultList from "./components/ResultList"
@@ -28,6 +29,7 @@ import { RiContactsBookLine } from "react-icons/ri";
 const App = () => {
   const [user, setUser] = useState(null)
   const [results, setResults] = useState([])
+  const [scoreResults, setScoreResults] = useState([])
   const [scoreCard, setScoreCard] = useState({})
 
   const addResult = (team, judge, scores) => {
@@ -70,6 +72,11 @@ const App = () => {
         .then((results) => {
             setResults(results)
         })
+
+      scoresService.getResultsByCompany(user.company)
+        .then((results) => {
+            setScoreResults(results)
+        })
     }
   }, [user])
 
@@ -88,6 +95,9 @@ const App = () => {
               <Switch>
                 <Route path="/score">
                   {user === null ? <Redirect to="/register" /> : <ScoreCard user={user} scoreCard={scoreCard} addResult={addResult} />}
+                </Route>
+                <Route path="/:company/results">
+                  {user === null ? <Redirect to="/register" /> : <ScoreResults user={user} scoreResults={scoreResults} setScoreResults={setScoreResults} />}
                 </Route>
                 <Route path="/setup">
                   {user === null ? <Redirect to="/register" /> : <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />}

@@ -22,8 +22,14 @@ const RubricForm = ({scoreCard, addRubric, user}) => {
             {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
 
             <form onSubmit={formHandler}>
-                <input type='text' name="name" onChange={updateField} value={rubricName} placeholder="Rubric name" />
-                <input type='submit' value='add' />
+                <div class="form-row">
+                    <div class="form-group col-md-10">
+                        <input type='text' className="form-control" name="name" onChange={updateField} value={rubricName} placeholder="Rubric name" />
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type='submit' className="btn btn-primary" value='Add Section' />
+                    </div>
+                </div>
             </form>
             
         </div>

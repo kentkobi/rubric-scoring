@@ -17,6 +17,7 @@ const UserSideNav = ({user, setUser}) => {
             {user && user.name &&
                 <div className="list-group list-group-flush">
                     <Link to="/score" className="list-group-item list-group-item-action bg-dark text-primary"><FaHome /> SCORING</Link>
+                    <Link to={`/${user.company}/results`} className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> RESULTS</Link>
                     <Link to="/" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> SCORES</Link>
                     <Link to="/setup" className="list-group-item list-group-item-action bg-dark text-primary"><FaAt /> CONFIG</Link>
                     <Link to="/profile" className="list-group-item list-group-item-action bg-dark text-primary"><FaUserEdit /> PROFILE</Link>
