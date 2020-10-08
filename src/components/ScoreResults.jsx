@@ -11,8 +11,8 @@ console.log(scoreResults)
         <div>
             {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
             <ul className="list-group list-group-flush bg-white border rounded">
-                {scoreResults && scoreResults.map((result) => (
-                    <ScoreResultItem key={result.id} result={result} user={user} />
+                {scoreResults && scoreResults.map((result, index) => (
+                    <ScoreResultItem key={result.id} index={index+1} result={result} user={user} />
                 ))}
                 {scoreResults && !scoreResults.length &&
                     <li className="list-group-item text-muted text-center">

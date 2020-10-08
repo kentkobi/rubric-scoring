@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 /* services */
 import scoreCardsService from './services/scorecards'
 import scoresService from './services/scores'
+import teamsService from './services/teams'
 
 /* components */
 import UserCard from "./components/UserCard"
@@ -12,6 +13,7 @@ import ScoreResults from "./components/ScoreResults"
 import ProfileForm from "./components/ProfileForm"
 import RegisterForm from "./components/RegisterForm"
 import ResultList from "./components/ResultList"
+import TeamList from "./components/TeamList"
 
 /* modules */
 import SideNav from "./modules/SideNav"
@@ -28,6 +30,7 @@ import { RiContactsBookLine } from "react-icons/ri";
 
 const App = () => {
   const [user, setUser] = useState(null)
+  const [teams, setTeams] = useState(null)
   const [results, setResults] = useState([])
   const [scoreResults, setScoreResults] = useState([])
   const [scoreCard, setScoreCard] = useState({})
@@ -77,6 +80,11 @@ const App = () => {
         .then((results) => {
             setScoreResults(results)
         })
+
+      teamsService.getAll()
+        .then((results) => {
+          setTeams(results)
+    })
     }
   }, [user])
 
@@ -95,6 +103,9 @@ const App = () => {
               <Switch>
                 <Route path="/score">
                   {user === null ? <Redirect to="/register" /> : <ScoreCard user={user} scoreCard={scoreCard} addResult={addResult} />}
+                </Route>
+                <Route path="/teams">
+                  {user === null ? <Redirect to="/register" /> : <TeamList user={user} teams={teams} setTeams={setTeams} />}
                 </Route>
                 <Route path="/:company/results">
                   {user === null ? <Redirect to="/register" /> : <ScoreResults user={user} scoreResults={scoreResults} setScoreResults={setScoreResults} />}

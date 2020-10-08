@@ -9,7 +9,7 @@ const ResultItem = ({score, user, deleteFn}) => {
   return (
     <li className="list-group-item">
           <small className="text-muted"><Moment fromNow ago>{score.created}</Moment> ago</small>
-          {score.team}
+          <h5>{score.team}</h5>
           {score.score} {score.judge.name}
           <div className="pl-2 pt-2">
             {user && user.username === score.judge.username &&

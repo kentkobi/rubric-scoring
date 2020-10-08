@@ -19,6 +19,7 @@ const UserSideNav = ({user, setUser}) => {
                     <Link to="/score" className="list-group-item list-group-item-action bg-dark text-primary"><FaHome /> SCORING</Link>
                     <Link to={`/${user.company}/results`} className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> RESULTS</Link>
                     <Link to="/" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> SCORES</Link>
+                    <Link to="/teams" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> TEAMS</Link>
                     <Link to="/setup" className="list-group-item list-group-item-action bg-dark text-primary"><FaAt /> CONFIG</Link>
                     <Link to="/profile" className="list-group-item list-group-item-action bg-dark text-primary"><FaUserEdit /> PROFILE</Link>
                     <a className="list-group-item list-group-item-action bg-dark text-primary" href="/logout" onClick={e => logOut(e)}><RiLogoutCircleLine /> LOG OUT</a>

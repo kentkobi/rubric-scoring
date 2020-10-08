@@ -4,13 +4,29 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { FaTrashAlt, FaRegHeart } from "react-icons/fa";
 
-const ResultItem = ({result, user}) => {  
+const ResultItem = ({index, result, user}) => {  
 
   return (
     <li className="list-group-item">
-          {result.team}
-          {result.total}
-          {result.count} judges
+      <div class="card">
+        <h5 class="card-header">
+          #{index} {result.team}
+        </h5>
+        <div class="card-body">
+          <h3>{result.total} pts</h3>
+        </div>
+        <div class="card-footer">
+
+          <div className="d-flex  align-content-stretch">
+            {result.breakdown && result.breakdown.map((sheet) => (
+              <div className="p-2 flex-fill">
+                <strong>{sheet.score} pts</strong>
+                <div>{sheet.judge.name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </li>
   )
 

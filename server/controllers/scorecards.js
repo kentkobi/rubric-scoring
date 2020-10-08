@@ -62,8 +62,6 @@ scoreCardsRouter.put('/:id', (req, res) => {
 scoreCardsRouter.get('/company/:company', async (request, response) => {
   const scoreCard = await ScoreCard.findOne({company: request.params.company});
 
-console.log(scoreCard)
-
   if(scoreCard){
     return response.json(scoreCard)
   } else {
