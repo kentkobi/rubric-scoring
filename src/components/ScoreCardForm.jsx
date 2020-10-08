@@ -25,7 +25,7 @@ const ScoreCard = ( {user, scoreCard, setScoreCard} ) => {
     }
 
     return (
-        <div>
+        <div className="">
             {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
             
             {scoreCard.rubrics && scoreCard.rubrics.map((rubric, i) =>   

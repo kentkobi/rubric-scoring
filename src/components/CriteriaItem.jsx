@@ -15,7 +15,7 @@ const CriteriaForm = ({index, criteria, removeCriteria}) => {
                 {criteria.weighting}
             </div>
             <div class="form-group col-md-2">
-                <button className="btn btn-outline-danger" onClick={e => removeCriteria(criteria)}><FaTrashAlt /></button>
+                <button className="btn btn-sm btn-outline-danger" onClick={e => removeCriteria(criteria)}><FaTrashAlt /></button>
             </div>        
         </div>
     )

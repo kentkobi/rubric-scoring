@@ -24,24 +24,24 @@ const RubricItem = ({user, index, scoreCard, rubric, setScoreCard, removeRubric}
     }
 
     return (
-        <div className="rubric">
-            <div class="form-row">
-                <div class="form-group col-md-10">
-                    <h3>{rubric.name||''} </h3>
+        <div className="card">
+            <div class="form-row card-header">
+                    <div class="form-group col-md-10 mb-0">
+                        <strong>{rubric.name||''} </strong>
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        <button className="btn btn-sm btn-outline-danger" onClick={e => removeRubric(rubric)} ><FaTrashAlt /> Remove {rubric.name||''} Section</button>
+                    </div>
                 </div>
-                <div class="form-group col-md-2">
-                    <button className="btn btn-outline-danger" onClick={e => removeRubric(rubric)} ><FaTrashAlt /> Remove {rubric.name||''} Section</button>
-                </div>
+            <div className="card-body">
+                <fieldset>
+                    
+                    {rubric.criterias && rubric.criterias.map((criteria, i) =>   
+                        <CriteriaItem key={i} index={i} criteria={criteria} removeCriteria={removeCriteria}/>
+                    )}
+                    <CriteriaForm scoreCard={scoreCard} addCriteria={addCriteria}/>
+                </fieldset>
             </div>
-            
-            <fieldset>
-                
-                {rubric.criterias && rubric.criterias.map((criteria, i) =>   
-                    <CriteriaItem key={i} index={i} criteria={criteria} removeCriteria={removeCriteria}/>
-                )}
-                <CriteriaForm scoreCard={scoreCard} addCriteria={addCriteria}/>
-            </fieldset>
-            <hr />
         </div>
     )
 }
