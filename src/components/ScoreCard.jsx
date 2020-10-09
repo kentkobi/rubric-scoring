@@ -7,7 +7,7 @@ const ScoreCard = ( {user, teams, scoreCard, addResult} ) => {
 
     const formHandler = (event) => {
         event.preventDefault()
-
+console.log(teamName)
         addResult(teamName, user, scoreCardEntry)
     }
     
@@ -17,6 +17,7 @@ const ScoreCard = ( {user, teams, scoreCard, addResult} ) => {
                 <div className="card">
                     <div className="card-body">
                         <select className="form-control" name="team" value={teamName} onChange={e => setTeamName(e.target.value)}>
+                            <option value="" selected disabled hidden>Choose Team</option>
                             {teams && teams.map((team) => (
                                 <option value={team.name}>{team.name}</option>
                             ))}

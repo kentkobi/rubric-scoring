@@ -86,7 +86,6 @@ scoresRouter.get('/company/:company', async (request, response) => {
     .populate('judge')
     .sort({"created": -1});
       
-  console.log('wtf')
   return response.json(scores)
 })
 
@@ -125,6 +124,22 @@ scoresRouter.get('/company/:company/results', async (request, response) => {
   //await User.populate(scores, {path: "breakdown.judge"});
 
   return response.json(scores)
+})
+
+scoresRouter.delete('/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const token = tokenUtil.validateToken(req)
+
+  if (!token) {
+    return res.status(401).json({error: "permission denied"})
+  }
+  
+  Score.findByIdAndDelete(req.params.id)
+    .then(result => {
+        res.json(result)
+    })
+
+  res.status(204).end()
 })
 
 module.exports = scoresRouter

@@ -36,3 +36,8 @@ h6 {
 .bg-light {
   background-color: #f5f6f8 !important;
 }
+
+.form-group{
+  white-space: pre-line;
+  margin-top: 1rem;
+}
