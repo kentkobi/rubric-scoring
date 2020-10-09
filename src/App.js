@@ -84,6 +84,8 @@ const App = () => {
       teamsService.getAll()
         .then((results) => {
           setTeams(results)
+
+          console.log(teams)
     })
     }
   }, [user])
@@ -102,7 +104,7 @@ const App = () => {
               <Navbar user={user} setUser={setUser} />
               <Switch>
                 <Route path="/score">
-                  {user === null ? <Redirect to="/register" /> : <ScoreCard user={user} scoreCard={scoreCard} addResult={addResult} />}
+                  {user === null ? <Redirect to="/register" /> : <ScoreCard user={user} teams={teams} scoreCard={scoreCard} addResult={addResult} />}
                 </Route>
                 <Route path="/teams">
                   {user === null ? <Redirect to="/register" /> : <TeamList user={user} teams={teams} setTeams={setTeams} />}

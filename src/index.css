@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+h6 {
+  line-height: 1.5rem;
+}
+
+.min-vh-100 {
+  min-height: 100vh!important;
+}
+
+#site-sidenav.bg-dark  {
+  background-color: #213246!important;
+}
+
+#site-sidenav.bg-dark a.list-group-item:hover, #site-sidenav.bg-dark a.list-group-item:active, #site-sidenav.bg-dark a.list-group-item:focus{
+  background-color: #4e9edb!important;
+  color: #ffffff!important;
+}
+
+#site-sidenav.bg-dark .list-group-item, #site-sidenav.bg-dark a.list-group-item{
+  background-color: #213246!important;
+  color: #70869d!important;
+}
+
+.bg-light {
+  background-color: #f5f6f8 !important;
+}

@@ -8,11 +8,16 @@ const Criteria = ( {criteria} ) => {
     }
 
     return (
-        <div className="mb-3">
-            <h4>{criteria.name}</h4>
-            <p>{criteria.description}</p>
-
-             <input type="number" name="score" onChange={updateScore} value={criteriaScore} min="0" max={criteria.weighting} required/> / {criteria.weighting}
+        <div className="form-row">  
+            <div class="form-group col-md-3">
+                <strong>{criteria.name}</strong>
+            </div>
+            <div class="form-group col-md-6">
+                {criteria.description}
+            </div>  
+            <div class="form-group col-md-1">
+                <input type="number" name="score" onChange={updateScore} value={criteriaScore} min="0" max={criteria.weighting} required/> / {criteria.weighting}
+            </div>    
         </div>
     )
 }
