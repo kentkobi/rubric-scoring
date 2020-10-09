@@ -32,10 +32,6 @@ const RegisterForm = ({user, setUser}) => {
                 <input type="text" className="form-control" name="name" defaultValue={user.name} onChange={e => setName(e.target.value)}  placeholder="Name" required/>
             </div>
             <div className="form-group">
-                <img src={avatar} alt=""/>
-                <input type="text" className="form-control" name="avatar" defaultValue={user.avatar} onChange={e => setAvatar(e.target.value)}  placeholder="Avatar Url" required/>
-            </div>
-            <div className="form-group">
                 <label htmlFor="password">New Password</label>
                 <input name="password" className="form-control" type="password" onChange={e => setPassword(e.target.value)} placeholder="Password" required/>
             </div>

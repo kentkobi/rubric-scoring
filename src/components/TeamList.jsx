@@ -24,8 +24,6 @@ const TeamList = ({user, teams, setTeams}) => {
             })
     }
 
-    console.log(teams)
-
     return(
         <div>
             <TeamForm addTeam={addTeam}/>

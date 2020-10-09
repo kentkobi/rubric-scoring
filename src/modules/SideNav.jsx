@@ -25,8 +25,7 @@ const UserSideNav = ({user, setUser}) => {
                     <h5 className="list-group-item list-group-item-action bg-dark text-primary">ADMIN</h5>
                     <Link to="/" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> SCORE ACTIVITY</Link>
                     <Link to="/teams" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> TEAMS</Link>
-                    <Link to="/teams" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> COMPANIES</Link>
-                    <Link to="/teams" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> JUDGES</Link>
+                    <Link to="/judges" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> JUDGES</Link>
 
                     <a className="list-group-item list-group-item-action bg-dark" href="/logout" onClick={e => logOut(e)}><RiLogoutCircleLine /> LOG OUT</a>
                 </div>
