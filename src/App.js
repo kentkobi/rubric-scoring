@@ -110,28 +110,28 @@ const App = () => {
               <Navbar user={user} setUser={setUser} />
               <Switch>
                 <Route path="/score">
-                  {user === null ? <Redirect to="/register" /> : <ScoreCard user={user} teams={teams} scoreCard={scoreCard} addResult={addResult} />}
+                  {user === null ? <Redirect to="/login" /> : <ScoreCard user={user} teams={teams} scoreCard={scoreCard} addResult={addResult} />}
                 </Route>
                 <Route path="/teams">
-                  {user === null ? <Redirect to="/register" /> : <TeamList user={user} teams={teams} setTeams={setTeams} />}
+                  {user === null ? <Redirect to="/login" /> : <TeamList user={user} teams={teams} setTeams={setTeams} />}
                 </Route>
                 <Route path="/judges">
-                  {user === null ? <Redirect to="/register" /> : <JudgeList user={user} users={users} setUsers={setUsers} />}
+                  {user === null ? <Redirect to="/login" /> : <JudgeList user={user} users={users} setUsers={setUsers} />}
                 </Route>
                 <Route path="/:company/results">
-                  {user === null ? <Redirect to="/register" /> : <ScoreResults user={user} scoreResults={scoreResults} setScoreResults={setScoreResults} />}
+                  {user === null ? <Redirect to="/login" /> : <ScoreResults user={user} scoreResults={scoreResults} setScoreResults={setScoreResults} />}
                 </Route>
                 <Route path="/setup">
-                  {user === null ? <Redirect to="/register" /> : <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />}
+                  {user === null ? <Redirect to="/login" /> : <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />}
                 </Route>
                 <Route path="/profile">
-                  {user === null ? <Redirect to="/register" /> : <ProfileForm user={user} setUser={setUser}/>}
+                  {user === null ? <Redirect to="/login" /> : <ProfileForm user={user} setUser={setUser}/>}
                 </Route>
                 <Route path="/register">
                   {user !== null ? <Redirect to="/" /> : <RegisterForm user={user} setUser={setUser}/>}
                 </Route>
                 <Route path="/">
-                  {user === null ? <Redirect to="/register" /> : <ResultList user={user} results={results} setResults={setResults} />}
+                  {user === null ? <Redirect to="/login" /> : <ResultList user={user} results={results} setResults={setResults} />}
                 </Route>
               </Switch>
             </main>
