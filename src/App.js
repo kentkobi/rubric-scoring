@@ -109,6 +109,9 @@ const App = () => {
             <main className="col p-0 bg-light">
               <Navbar user={user} setUser={setUser} />
               <Switch>
+                <Route path="/login">
+                  {user !== null ? <Redirect to="/" /> : <LoginForm user={user} setUser={setUser}/>}
+                </Route>
                 <Route path="/score">
                   {user === null ? <Redirect to="/login" /> : <ScoreCard user={user} teams={teams} scoreCard={scoreCard} addResult={addResult} />}
                 </Route>
