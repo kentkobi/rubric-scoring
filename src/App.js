@@ -10,6 +10,7 @@ import usersService from './services/users'
 import UserCard from "./components/UserCard"
 import ScoreCard from "./components/ScoreCard"
 import ScoreCardForm from "./components/ScoreCardForm"
+import LoginForm from "./components/LoginForm"
 import ScoreResults from "./components/ScoreResults"
 import ProfileForm from "./components/ProfileForm"
 import RegisterForm from "./components/RegisterForm"
