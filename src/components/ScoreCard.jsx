@@ -19,7 +19,7 @@ const ScoreCard = ( {user, teams, scoreCard, addResult} ) => {
             <div className="">
                 <div className="card">
                     <div className="card-body">
-                        <select className="form-control" name="team" value={teamName} onChange={e => setTeamName(e.target.value)}>
+                        <select className="form-control" name="team" value={teamName} onChange={e => setTeamName(e.target.value)} required>
                             <option value="" selected disabled hidden>Choose Team</option>
                             {teams && teams.map((team) => (
                                 <option value={team.name}>{team.name}</option>
