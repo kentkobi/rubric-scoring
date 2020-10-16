@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 
 const Criteria = ( {criteria} ) => {
-    const [criteriaScore, setCriteriaScore] = useState(criteria.score || '')
+    //const [criteriaScore, setCriteriaScore] = useState(criteria.score || '')
     const updateScore = (event) => {
         criteria.score = event.target.value
-        setCriteriaScore(event.target.value)
+        //setCriteriaScore(event.target.value)
     }
 
     return (
@@ -16,7 +16,7 @@ const Criteria = ( {criteria} ) => {
                 {criteria.description}
             </div>  
             <div className="form-group col-md-1">
-                <input type="number" name="score" onChange={updateScore} value={criteriaScore} min="0" max={criteria.weighting} required/> / {criteria.weighting}
+                <input type="number" name="score" onChange={updateScore} value={criteria.score} min="0" max={criteria.weighting} required/> / {criteria.weighting}
             </div>    
         </div>
     )

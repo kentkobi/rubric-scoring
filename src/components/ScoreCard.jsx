@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Rubric from './Rubric'
 
 const ScoreCard = ( {user, teams, scoreCard, addResult} ) => {
-    const [scoreCardEntry, setScoreCardEntry] = useState(scoreCard)
-    const [teamName, setTeamName] = useState(scoreCard.team || "")
+    const initialState = JSON.parse(JSON.stringify(scoreCard)) 
+    const [scoreCardEntry, setScoreCardEntry] = useState( initialState )
+    const [teamName, setTeamName] = useState("")
 
-    const formHandler = (event) => {
+    const formHandler = async (event) => {
         event.preventDefault()
-console.log(teamName)
+        event.target.reset(); //reset form for any uncontrolled inputs
+
         addResult(teamName, user, scoreCardEntry)
+        setScoreCardEntry( initialState )
     }
     
     return (

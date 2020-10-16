@@ -28,8 +28,6 @@ import {
   Route,
   Redirect
 } from "react-router-dom"
-import { RiContactsBookLine } from "react-icons/ri";
-
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -37,7 +35,7 @@ const App = () => {
   const [teams, setTeams] = useState(null)
   const [results, setResults] = useState([])
   const [scoreResults, setScoreResults] = useState([])
-  const [scoreCard, setScoreCard] = useState({})
+  const [scoreCard, setScoreCard] = useState(null)
 
   const addResult = (team, judge, scores) => {
     const scoreEntry = {
