@@ -4,8 +4,8 @@ import Criteria from './Criteria'
 const Rubric = ( {rubric, addResult} ) => {
     return (
         <div className="card">
-            <div class="form-row card-header">
-                    <div class="form-group col-md-12 mb-0">
+            <div className="form-row card-header">
+                    <div className="form-group col-md-12 mb-0">
                         <strong>{rubric.name||''} </strong>
                     </div>
                 </div>
