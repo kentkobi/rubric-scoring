@@ -24,19 +24,23 @@ const RegisterForm = ({user, setUser}) => {
     }
   
     return (
-        <form onSubmit={formHandler}>
-            {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
+        <div className="card">
+            <div className="card-body">
+                <form onSubmit={formHandler}>
+                    {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
 
-            <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input type="text" className="form-control" name="name" defaultValue={user.name} onChange={e => setName(e.target.value)}  placeholder="Name" required/>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input type="text" className="form-control" name="name" defaultValue={user.name} onChange={e => setName(e.target.value)}  placeholder="Name" required/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">New Password</label>
+                        <input name="password" className="form-control" type="password" onChange={e => setPassword(e.target.value)} placeholder="Password" required/>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Save</button>
+                </form>
             </div>
-            <div className="form-group">
-                <label htmlFor="password">New Password</label>
-                <input name="password" className="form-control" type="password" onChange={e => setPassword(e.target.value)} placeholder="Password" required/>
-            </div>
-            <button type="submit" className="btn btn-primary">Save</button>
-        </form>
+        </div>
     )
 }
 

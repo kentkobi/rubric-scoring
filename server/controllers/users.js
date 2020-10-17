@@ -130,5 +130,72 @@ usersRouter.put('/:username/profile', async (request, response) => {
     return response.status(500).send({error: error.message})
   }
 })
-  
+
+usersRouter.put('/forgot-password', async (request, response) => {
+  const email = request.body
+
+  User.findOne({username: email}, (err, user) => {
+    if(err || !user){
+      return response.status(400).json({error: "User with this email does not exist"})
+    }
+
+    const token = jwt.sign({_id: user._id}, process.env.SECRET, {expiresIn: '20m'})
+    const data = {
+      from: 'noreply@univative.com',
+      to: email,
+      subject: 'Forgot Password Link',
+      html:`
+        <h3>Please click on the link to reset your password</h3>
+        <p>${process.env.CLIENT_URL}/reset-password/${token}</p>
+      `
+    }
+
+    return user.updateOne({resetLink: token}, async (error, succcess) => {
+      if (error){
+        return response.status(400).json({error: "reset password link error"})
+      } else {
+        mg.messages.send(data, function(error, body){
+          if(error){
+            return response.json({error: error.message})
+          }
+          return response.json({message: "Email has been sent, kindly follow the instructions"})
+        })
+      }
+    })
+  })
+}) 
+
+usersRouter.put('/reset-password', async (request, response) => {
+  const {resetLink, newPass} = request.body
+  if(resetLink){
+    jwt.verify(resetLink, process.env.SECRET, (error, decodedData) => {
+      if(error){
+        return response.status(401).json({error: "incorrect or expired token"})
+      }
+
+      User.findOne({resetLink}, (error, user) => {
+        if(error || !user){
+          return response.status(400).json({error: "User with this token does not exist."})
+        }
+
+        //get new password hash
+        const saltRounds = 10
+        const passwordHash = await bcrypt.hash(newPass, saltRounds)
+
+        user.passwordHash = passwordHash
+        user.resetLink = '' //blank out reset link as it's now been used.
+        await user.save((error, result) => {
+          if(error){
+            return status(400).json({error: "reset password error"})
+          } else {
+            return status(200).json({message: "your password has been changed"})
+          }
+        })
+
+      })
+    })
+  } else {
+      return response.status(401).json({error: "Authentication error!"})
+  }
+}) 
 module.exports = usersRouter

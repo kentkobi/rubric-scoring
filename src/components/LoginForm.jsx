@@ -2,6 +2,7 @@
 import React, {useState} from 'react'
 import usersService from '../services/users'
 import tokenService from '../utils/token'
+import { Link } from 'react-router-dom'
 
 const LoginForm = ({user, setUser}) => {
     const [hasError, setHasError] = useState(false)
@@ -43,21 +44,23 @@ const LoginForm = ({user, setUser}) => {
         )
     } else {
         return (
-            <div>
-                {hasError && <div class="alert alert-warning" role="alert">Hmmn, we can't seem to find you... You sure about the username and password?</div>}
-                <form onSubmit={formHandler}>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" onChange={e => setUsername(e.target.value)}  placeholder="Username" required/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input name="password" className="form-control" type="password" onChange={e => setPassword(e.target.value)} placeholder="Password" required/>
-                    </div>
-                    <button type="submit" className="btn btn-primary">Login</button>
-                </form>
+            <div className="card">
+                <div className="card-body">
+                    {hasError && <div class="alert alert-warning" role="alert">Hmmn, we can't seem to find you... You sure about the username and password?</div>}
+                    <form onSubmit={formHandler}>
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <input type="text" className="form-control" name="username" onChange={e => setUsername(e.target.value)}  placeholder="Username" required/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input name="password" className="form-control" type="password" onChange={e => setPassword(e.target.value)} placeholder="Password" required/>
+                        </div>
+                        <button type="submit" className="btn btn-primary">Login</button>
+                    </form>
 
-                <p>Don't have an account? <a href="/register">Sign up</a></p>
+                    <p>Don't have an account? <Link to="/register">Sign up</Link></p>
+                </div>
             </div>
             )
     }

@@ -134,12 +134,11 @@ scoresRouter.delete('/:id', (req, res) => {
     return res.status(401).json({error: "permission denied"})
   }
   
-  Score.findByIdAndDelete(req.params.id)
+  Score.findByIdAndRemove(req.params.id)
     .then(result => {
-        res.json(result)
+        res.status(204).json(result).end()
     })
-
-  res.status(204).end()
+    .catch(error => next(error))
 })
 
 module.exports = scoresRouter
