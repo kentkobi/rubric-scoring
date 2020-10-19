@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 const Criteria = ( {criteria} ) => {
     //const [criteriaScore, setCriteriaScore] = useState(criteria.score || '')

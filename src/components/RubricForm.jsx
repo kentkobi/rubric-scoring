@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import CriteriaForm from './CriteriaForm'
 
 const RubricForm = ({scoreCard, addRubric, user}) => {
     const [errorMessage, setErrorMessage] = useState('')

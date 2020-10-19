@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import ScoreResultItem from './ScoreResultItem'
-import RubricForm from './RubricForm'
-import RubricItem from './RubricItem'
-import scoreCardsService from '../services/scorecards'
 
 const ScoreResults = ( {user, scoreResults, setScoreResults} ) => {
     const [errorMessage, setErrorMessage] = useState('')

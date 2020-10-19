@@ -83,6 +83,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    console.log('user',user)
     const assignedTo = (user && 
         user[process.env.REACT_APP_AUTH0_USER_META_URL] && 
         user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned) 

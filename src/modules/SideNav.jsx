@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { FaHome, FaUserEdit, FaPlus, FaAt, FaRegHeart } from "react-icons/fa"
 import { RiLogoutCircleLine } from "react-icons/ri"
 import { Link } from 'react-router-dom'
-import Button from '../components/Button'
 
 const UserSideNav = ({user, setUser}) => {
     const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
