@@ -34,6 +34,8 @@ const App = () => {
   const [results, setResults] = useState([])
   const [scoreResults, setScoreResults] = useState([])
   const [scoreCard, setScoreCard] = useState(null)
+  const [defaultScoreCard, setDefaultScoreCard] = useState(null)
+
   const {user, isAuthenticated, loginWithRedirect, logout, getAccessTokenSilently} = useAuth0()
 
   const addResult = (team, judge, scores) => {
@@ -67,6 +69,11 @@ const App = () => {
       .then((results) => {
         setUsers(results)
     })
+
+    scoreCardsService.getByCompany('default')
+        .then((scorecard) => {
+            setDefaultScoreCard(scorecard)  
+        })
   }, [])
 
   const getUserToken = async () => {
@@ -77,23 +84,23 @@ const App = () => {
 
   useEffect(() => {
     const assignedTo = (user && 
-      user['https://localhost:3002/user_metadata'] && 
-      user['https://localhost:3002/user_metadata'].assigned) 
-    ? user['https://localhost:3002/user_metadata'].assigned
-    : null
-
-    /*const assignedTo = (user && 
         user[process.env.REACT_APP_AUTH0_USER_META_URL] && 
         user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned) 
       ? user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned
-      : null*/
+      : null
 
     if(user && assignedTo) {
       user.assigned = assignedTo
 
       scoreCardsService.getByCompany(assignedTo)
         .then((scorecard) => {
-            setScoreCard(scorecard)  
+            if (scorecard.rubrics && scorecard.rubrics.length){
+              console.log(scorecard.rubrics.length, "has a scorecard!")
+              setScoreCard(scorecard)  
+            } else {
+              console.log("no scorecard - seeding with default scorecard")
+              setScoreCard(defaultScoreCard)
+            } 
         })
 
       scoresService.getByCompany(assignedTo)
@@ -110,16 +117,10 @@ const App = () => {
 
   useEffect(() => {
     const assignedTo = (user && 
-      user['https://localhost:3002/user_metadata'] && 
-      user['https://localhost:3002/user_metadata'].assigned) 
-    ? user['https://localhost:3002/user_metadata'].assigned
-    : null
-
-    /*const assignedTo = (user && 
       user[process.env.REACT_APP_AUTH0_USER_META_URL] && 
       user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned) 
     ? user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned
-    : null*/
+    : null
 
     if(user && assignedTo) {
       user.assigned = assignedTo
@@ -164,7 +165,7 @@ const App = () => {
               <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />
             </PrivateRoute>
             <PrivateRoute path="/default">
-              <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />
+              <ScoreCardForm user={user} scoreCard={defaultScoreCard} setScoreCard={setDefaultScoreCard} />
             </PrivateRoute>
             <Route path="/results">
               <ResultList user={user} results={results} setResults={setResults} />

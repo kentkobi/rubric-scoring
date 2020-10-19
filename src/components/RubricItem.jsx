@@ -25,11 +25,11 @@ const RubricItem = ({user, index, scoreCard, rubric, setScoreCard, removeRubric}
 
     return (
         <div className="card">
-            <div class="form-row card-header">
-                    <div class="form-group col-md-10 mb-0">
+            <div className="form-row card-header">
+                    <div className="form-group col-md-10 mb-0">
                         <strong>{rubric.name||''} </strong>
                     </div>
-                    <div class="form-group col-md-2 mb-0">
+                    <div className="form-group col-md-2 mb-0">
                         <button className="btn btn-sm btn-outline-danger" onClick={e => removeRubric(rubric)} ><FaTrashAlt /> Remove {rubric.name||''} Section</button>
                     </div>
                 </div>
