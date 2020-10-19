@@ -8,20 +8,20 @@ const ResultItem = ({index, result, user}) => {
 
   return (
     <li className="list-group-item">
-      <div class="card">
-        <h5 class="card-header">
+      <div className="card">
+        <h5 className="card-header">
           #{index} {result.team}
         </h5>
-        <div class="card-body">
+        <div className="card-body">
           <h3>{result.total} pts</h3>
         </div>
-        <div class="card-footer">
+        <div className="card-footer">
 
           <div className="d-flex  align-content-stretch">
             {result.breakdown && result.breakdown.map((sheet) => (
               <div className="p-2 flex-fill">
                 <strong>{sheet.score} pts</strong>
-                <div>{sheet.judge.name}</div>
+                <div>{sheet.judge}</div>
               </div>
             ))}
           </div>

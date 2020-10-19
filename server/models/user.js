@@ -7,13 +7,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    name: String, 
-    company: String, 
-    passwordHash: String,
-    resetLink: {
-        data: String,
-        default: ''
-    }
+    company: String
 })
 
 userSchema.plugin(uniqueValidator)
@@ -23,7 +17,6 @@ userSchema.set('toJSON', {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject.__v
         delete returnedObject._id
-        delete returnedObject.passwordHash
     }
 })
 

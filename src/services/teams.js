@@ -42,14 +42,14 @@ const update = async (target) => {
     return response.data
 }
 
-const remove = async ({name}) => {
+const remove = async (id) => {
     const token = tokenService.getToken()
 
     if (!token) {
         return new Promise(() => null)
     }
 
-    const response = await axios.delete(baseURL + "/" + {name}, null, tokenService.getConfig() )
+    const response = await axios.delete(baseURL + "/" + id, null, tokenService.getConfig() )
 
     return response.data
 }

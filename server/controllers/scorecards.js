@@ -12,12 +12,12 @@ scoreCardsRouter.get('/', (req, res) => {
 })
 
 scoreCardsRouter.post('/', async (req, res) => {
-  const token = tokenUtil.validateToken(req)
+  //const token = tokenUtil.validateToken(req)
   const body = req.body
 
-  if (!token) {
+  /*if (!token) {
     return res.status(401).json({error: "invalid token"})
-  }
+  }*/
 
   if (body.rubrics === undefined) {
     return res.status(400).json({error: 'rubrics missing'})
@@ -30,7 +30,6 @@ scoreCardsRouter.post('/', async (req, res) => {
   const newScore = new ScoreCard({
     rubrics: body.rubrics,
     created: new Date(),
-    user: token.id,
   })
 
   newScore.save()
@@ -42,11 +41,11 @@ scoreCardsRouter.post('/', async (req, res) => {
 
 scoreCardsRouter.put('/:id', (req, res) => {
 
-  const token = tokenUtil.validateToken(req)
+  /*const token = tokenUtil.validateToken(req)
 
   if (!token) {
     return res.status(401).json({error: "permission denied"})
-  }
+  }*/
 
   const newScoreCard = {
     rubrics: req.body.rubrics

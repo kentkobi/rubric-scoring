@@ -4,15 +4,10 @@ import usersService from '../services/users'
 import {useParams} from 'react-router-dom'
 
 const ProfileList = ({user, users, setUsers}) => {
-    const company = useParams().mention
 
-    if (company) {
-        users = users.filter(p => p.company && p.company === company)
-    }
-
-    const addJudge = async (newUser) => {
-        const savedUser = await usersService.register(newUser)
-        setUsers([...users, savedUser])
+    const assignToGroup = async (user_id, group) => {
+        const savedUser = await usersService.assignToGroup(user_id, group)
+        //setUsers([...users, savedUser])
     }
 
     /*const deleteResult = (team) => {
@@ -25,19 +20,30 @@ const ProfileList = ({user, users, setUsers}) => {
 
     return(
         <div>
-            <JudgeForm addJudge={addJudge}/>
-            <ul className="list-group list-group-flush bg-white border rounded">
-                {users && users.map((user) => (
-                    <li>{user.name} - {user.username} - {user.company} - {user.password}</li>
-                ))}
-                {users && !users.length &&
-                    <li className="list-group-item text-muted text-center">
-                        <h5>no results found</h5>
-                    </li>
-                }
-            </ul>   
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Judge Group</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users && users.map((judge) => (
+                        <tr>
+                            <td>{judge.name}</td>
+                            <td>{judge.email}</td>
+                            <td><JudgeForm judge={judge} assignToGroup={assignToGroup}/></td>
+                        </tr>
+                    ))}
+                    {users && !users.length &&
+                        <tr>
+                            <td colspan="3" className="text-muted text-center">no results found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-        
     )
 }
 export default ProfileList

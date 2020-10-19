@@ -18,53 +18,11 @@ const getByUsername = async (username) => {
     return response.data
 }
 
-const login = async ({username, password}) => {
-    const response = await axios.post(baseURL + '/login', {username, password})
-    window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
-    tokenService.setToken(response.data.token)
+const assignToGroup = async (user_id, group) => {
+
+    const response = await axios.put(baseURL + "/" + user_id, {group} )
 
     return response.data
 }
 
-const register = async ({name, company, username, password}) => {
-    const response = await axios.post(baseURL + '/register', {name, company, username, password})
-    window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
-    tokenService.setToken(response.data.token)
-
-    return response.data
-}
-
-const update = async (target) => {
-    const token = tokenService.getToken()
-
-    if (!token) {
-        return new Promise(() => null)
-    }
-
-    const response = await axios.put(baseURL + "/" + target.username, target, tokenService.getConfig() )
-    window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
-    tokenService.setToken(response.data.token)
-
-    return response.data
-}
-
-const edit = async (target) => {
-    const token = tokenService.getToken()
-
-    if (!token) {
-        return new Promise(() => null)
-    }
-
-    const response = await axios.put(baseURL + "/" + target.username + "/profile", target, tokenService.getConfig() )
-    window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
-    tokenService.setToken(response.data.token)
-
-    return response.data
-}
-
-const logout = () => {
-    window.localStorage.removeItem('loggedInUser')
-    tokenService.setToken(null)
-}
-
-export default {getAll, getByUsername, login, register, edit, update, logout} 
+export default {getAll, getByUsername, assignToGroup} 

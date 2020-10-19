@@ -14,11 +14,13 @@ scoresRouter.get('/', (req, res) => {
 })
 
 scoresRouter.post('/', async (req, res) => {
-  const token = tokenUtil.validateToken(req)
+  /*const token = tokenUtil.validateToken(req)
+
+  console.log(req)
 
   if (!token) {
     return res.status(401).json({error: "invalid token"})
-  }
+  }*/
   
   const body = req.body
 
@@ -49,8 +51,7 @@ scoresRouter.post('/', async (req, res) => {
     team: body.team,
     scores: body.scores,
     score: totalScore,
-    company: body.company,
-    user: token.id,
+    company: body.company
   })
 
   console.log(newScore)
@@ -64,11 +65,11 @@ scoresRouter.post('/', async (req, res) => {
 
 scoresRouter.put('/:id', (req, res) => {
 
-  const token = tokenUtil.validateToken(req)
+  /*const token = tokenUtil.validateToken(req)
 
   if (!token) {
     return res.status(401).json({error: "permission denied"})
-  }
+  }*/
 
   const newScore = {
       content: req.body.criterias
@@ -92,22 +93,6 @@ scoresRouter.get('/company/:company', async (request, response) => {
 scoresRouter.get('/company/:company/results', async (request, response) => {
   const scores = await Score.aggregate([
     {$match: {company: request.params.company}},
-    {
-      $lookup: {
-        from: "users",
-        localField: "submitted",
-        foreignField: "username",
-        as: "judge"
-      }
-    },
-    {
-      $project: {
-        "judge.passwordHash": 0,
-        "judge.__v": 0,
-        "judge._id": 0,
-        "breakdown._id": 0,
-      }
-    },
     {$group: {
         _id: "$team",
         team: { $first: "$team" },
@@ -115,24 +100,24 @@ scoresRouter.get('/company/:company/results', async (request, response) => {
         total: { $sum: "$score"},
         breakdown : { $push: { 
           id: "$_id", 
-          judge: { "$arrayElemAt": [ "$judge", 0 ] }, 
+          judge: "$submitted", 
           score: "$score" }}
       }
     },
     {$sort: {"total": -1}}
   ])
-  //await User.populate(scores, {path: "breakdown.judge"});
+  console.log(scores)
 
   return response.json(scores)
 })
 
 scoresRouter.delete('/:id', (req, res) => {
   const id = Number(req.params.id)
-  const token = tokenUtil.validateToken(req)
+  /*const token = tokenUtil.validateToken(req)
 
   if (!token) {
     return res.status(401).json({error: "permission denied"})
-  }
+  }*/
   
   Score.findByIdAndRemove(req.params.id)
     .then(result => {

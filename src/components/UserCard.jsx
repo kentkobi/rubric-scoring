@@ -1,14 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useAuth0 } from "@auth0/auth0-react";
 
-const UserCard = ({user}) => { 
+const UserCard = () => { 
+    const { user, isAuthenticated, isLoading } = useAuth0();
+
+    if (isLoading) {
+        return <div>Loading ...</div>;
+    }
+
     return (
-        <div className="border-bottom border-secondary">
-            <Link to="/profile">
-                <h5 className="mb-0 mx-auto">{user.name}</h5>
-                <p>{user.company}</p>
-            </Link>
-        </div>
-    )
+        isAuthenticated && (
+            <div className="border-bottom border-secondary">
+                <h5 className="text-white mb-0 mx-auto">{user.name}</h5>
+                <p className="text-white">{user.email}</p>
+            </div>
+        )
+    );
 }
 export default UserCard

@@ -8,11 +8,11 @@ const Team = require('../models/team')
 
 teamsRouter.post('/', async (request, response) => {
   const body = request.body
-  const token = tokenUtil.validateToken(request)
+  /*const token = tokenUtil.validateToken(request)
 
   if (!token) {
     return response.status(401).json({error: "invalid token"})
-  }
+  }*/
 
   const team = new Team({
     name: body.name
@@ -36,13 +36,20 @@ teamsRouter.get('/', async (request, response) => {
   const users = await Team.find({})
   response.json(users)
 })
-
-teamsRouter.get('/:name', async (request, response) => {
-  const team = await User.findOne({name: request.params.name})
-
-  response.json({
-    id: team.id,
-    username: team.name})
-})
   
+teamsRouter.delete('/:id', (req, res) => {
+  const id = Number(req.params.id)
+  /*const token = tokenUtil.validateToken(req)
+
+  if (!token) {
+    return res.status(401).json({error: "permission denied"})
+  }*/
+  
+  Team.findByIdAndRemove(req.params.id)
+    .then(result => {
+        res.status(204).json(result).end()
+    })
+    .catch(error => next(error))
+})
+
 module.exports = teamsRouter

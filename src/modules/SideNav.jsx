@@ -1,40 +1,39 @@
 import React from 'react'
-import userService from '../services/users'
+import { useAuth0 } from "@auth0/auth0-react";
 import { FaHome, FaUserEdit, FaPlus, FaAt, FaRegHeart } from "react-icons/fa"
 import { RiLogoutCircleLine } from "react-icons/ri"
 import { Link } from 'react-router-dom'
+import Button from '../components/Button'
 
 const UserSideNav = ({user, setUser}) => {
-    const logOut = (event) => {
-        event.preventDefault()
-        
-        userService.logout()
-        setUser(null)
-    }
+    const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
 
     return(    
         <div>
-            {user && user.name &&
+            {isAuthenticated &&
                 <div className="list-group list-group-flush">
-                    <Link to="/score" className="list-group-item list-group-item-action bg-dark text-primary"><FaHome /> SCORING</Link>
-                    <Link to={`/${user.company}/results`} className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> RESULTS</Link>
+                    {user && user.assigned &&
+                        <div className="judge-controls">
+                            <Link to="/score" className="list-group-item list-group-item-action bg-dark text-primary"><FaHome /> ENTER A SCORE</Link>
+                            <Link to={`/${user.assigned}/results`} className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> SCORE RESULTS</Link>
+                            <Link to="/setup" className="list-group-item list-group-item-action bg-dark text-primary"><FaAt /> EDIT SCORECARD</Link>
+                            <Link to="/results" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> MY SCORES</Link>
+                        </div>
+                    }
                     
-                    <Link to="/setup" className="list-group-item list-group-item-action bg-dark text-primary"><FaAt /> CONFIG</Link>
-                    <Link to="/profile" className="list-group-item list-group-item-action bg-dark text-primary"><FaUserEdit /> PROFILE</Link>
                     <hr />
                     <h5 className="list-group-item list-group-item-action bg-dark text-primary">ADMIN</h5>
-                    <Link to="/" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> SCORE ACTIVITY</Link>
-                    <Link to="/teams" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> TEAMS</Link>
-                    <Link to="/judges" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> JUDGES</Link>
+                    <Link to="/default" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> DEFAULT SCORECARD</Link>
+                    <Link to="/teams" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> CREATE TEAMS</Link>
+                    <Link to="/judges" className="list-group-item list-group-item-action bg-dark text-primary"><FaRegHeart /> ASSIGN JUDGES</Link>
 
-                    <a className="list-group-item list-group-item-action bg-dark" href="/logout" onClick={e => logOut(e)}><RiLogoutCircleLine /> LOG OUT</a>
+                    <a className="list-group-item list-group-item-action bg-dark" href="/logout" onClick={e => logout()}><RiLogoutCircleLine /> LOG OUT</a>
                 </div>
             } 
-            {!user &&
+            {!isAuthenticated &&
                 <div className="list-group list-group-flush">
                     <Link to="/" className="list-group-item list-group-item-action bg-dark text-primary"><FaHome /> HOME</Link>
-                    <Link to="/register" className="list-group-item list-group-item-action bg-dark text-primary"><FaUserEdit /> SIGNUP</Link>
-                    <Link to="/login" className="list-group-item list-group-item-action bg-dark text-primary"><FaUserEdit /> LOG IN</Link>
+                    <a className="list-group-item list-group-item-action bg-dark text-primary" href="/login" onClick={e => loginWithRedirect()}><FaUserEdit /> LOG IN</a>
                 </div>
             }
         </div>

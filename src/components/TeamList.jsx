@@ -1,14 +1,9 @@
 import React from 'react'
 import TeamForm from './TeamForm'
 import teamsService from '../services/teams'
-import {useParams} from 'react-router-dom'
+import { FaTrashAlt} from "react-icons/fa";
 
 const TeamList = ({user, teams, setTeams}) => {
-    const company = useParams().mention
-
-    if (company) {
-        teams = teams.filter(p => p.company && p.company === company)
-    }
 
     const addTeam = async (newTeam) => {
         const savedTeam = await teamsService.create(newTeam)
@@ -16,10 +11,10 @@ const TeamList = ({user, teams, setTeams}) => {
         setTeams([...teams, savedTeam])
     }
 
-    const deleteResult = (team) => {
-        teamsService.delete(team, user)
+    const deleteTeam = (id) => {
+        teamsService.remove(id, user)
             .then(data => {
-                const updatedTeams = teams.filter(p => p.id !== team.id)
+                const updatedTeams = teams.filter(p => p.id !== id)
                 setTeams(updatedTeams)
             })
     }
@@ -27,17 +22,30 @@ const TeamList = ({user, teams, setTeams}) => {
     return(
         <div>
             <TeamForm addTeam={addTeam}/>
-            <ul className="list-group list-group-flush bg-white border rounded">
-                {teams && teams.map((team) => (
-                    <li>{team.name}</li>
-                ))}
-                {teams && !teams.length &&
-                    <li className="list-group-item text-muted text-center">
-                        <h5>no results found</h5>
-                    </li>
-                }
-            </ul>   
-        </div>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {teams && teams.map((team) => (
+                        <tr>
+                            <td>{team.name}</td>
+                            <td className="text-right">
+                                <button className="btn btn-sm btn-outline-danger" onClick={e => deleteTeam(team.id)}><FaTrashAlt /></button>
+                            </td>
+                        </tr>
+                    ))}
+                    {teams && !teams.length &&
+                        <tr>
+                            <td colspan="3" className="text-muted text-center">no results found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
         
     )
 }

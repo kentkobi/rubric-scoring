@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 /* services */
 import scoreCardsService from './services/scorecards'
@@ -7,20 +8,17 @@ import teamsService from './services/teams'
 import usersService from './services/users'
 
 /* components */
+import PrivateRoute from "./components/private-route"
 import UserCard from "./components/UserCard"
 import ScoreCard from "./components/ScoreCard"
 import ScoreCardForm from "./components/ScoreCardForm"
-import LoginForm from "./components/LoginForm"
 import ScoreResults from "./components/ScoreResults"
-import ProfileForm from "./components/ProfileForm"
-import RegisterForm from "./components/RegisterForm"
 import ResultList from "./components/ResultList"
 import TeamList from "./components/TeamList"
 import JudgeList from "./components/JudgeList"
 
 /* modules */
 import SideNav from "./modules/SideNav"
-import Navbar from "./modules/Navbar"
 
 import {
   BrowserRouter as Router,
@@ -28,18 +26,19 @@ import {
   Route,
   Redirect
 } from "react-router-dom"
+import Loading from "./components/Loading";
 
 const App = () => {
-  const [user, setUser] = useState(null)
   const [users, setUsers] = useState(null)
   const [teams, setTeams] = useState(null)
   const [results, setResults] = useState([])
   const [scoreResults, setScoreResults] = useState([])
   const [scoreCard, setScoreCard] = useState(null)
+  const {user, isAuthenticated, loginWithRedirect, logout, getAccessTokenSilently} = useAuth0()
 
   const addResult = (team, judge, scores) => {
     const scoreEntry = {
-      judge: judge.username,
+      judge: judge.name,
       company: scores.company,
       team: team,
       scores: scores
@@ -59,87 +58,121 @@ const App = () => {
   }
   
   useEffect(() => {
-    const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
-    if (loggedInUserJSON) {
-      const user = JSON.parse(loggedInUserJSON)
-      setUser(user)
-    }
-  }, [])
-
-  useEffect(() => {
-    if(user && user.company) {
-      scoreCardsService.getByCompany(user.company)
-        .then((scorecard) => {
-            setScoreCard(scorecard)  
-        })
-
-      scoresService.getByCompany(user.company)
-        .then((results) => {
-            setResults(results)
-        })
-
-      scoresService.getResultsByCompany(user.company)
-        .then((results) => {
-            setScoreResults(results)
-        })
-
-      teamsService.getAll()
+    teamsService.getAll()
         .then((results) => {
           setTeams(results)
       })
 
-      usersService.getAll()
+    usersService.getAll()
+      .then((results) => {
+        setUsers(results)
+    })
+  }, [])
+
+  const getUserToken = async () => {
+    const token = await getAccessTokenSilently();
+    window.localStorage.setItem('token', token)
+    return token
+  }
+
+  useEffect(() => {
+    const assignedTo = (user && 
+      user['https://localhost:3002/user_metadata'] && 
+      user['https://localhost:3002/user_metadata'].assigned) 
+    ? user['https://localhost:3002/user_metadata'].assigned
+    : null
+
+    /*const assignedTo = (user && 
+        user[process.env.REACT_APP_AUTH0_USER_META_URL] && 
+        user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned) 
+      ? user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned
+      : null*/
+
+    if(user && assignedTo) {
+      user.assigned = assignedTo
+
+      scoreCardsService.getByCompany(assignedTo)
+        .then((scorecard) => {
+            setScoreCard(scorecard)  
+        })
+
+      scoresService.getByCompany(assignedTo)
         .then((results) => {
-          setUsers(results)
-      })
+            setResults(results)
+        })
+
+      scoresService.getResultsByCompany(assignedTo)
+        .then((results) => {
+            setScoreResults(results)
+        })
     }
   }, [user])
 
+  useEffect(() => {
+    const assignedTo = (user && 
+      user['https://localhost:3002/user_metadata'] && 
+      user['https://localhost:3002/user_metadata'].assigned) 
+    ? user['https://localhost:3002/user_metadata'].assigned
+    : null
+
+    /*const assignedTo = (user && 
+      user[process.env.REACT_APP_AUTH0_USER_META_URL] && 
+      user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned) 
+    ? user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned
+    : null*/
+
+    if(user && assignedTo) {
+      user.assigned = assignedTo
+
+      scoresService.getResultsByCompany(assignedTo)
+        .then((results) => {
+            setScoreResults(results)
+        })
+    }
+  }, [results])
+
+  const {isLoading} = useAuth0()
+
+  if(isLoading){
+    return <Loading />
+  }
+
   return (
-      <Router>
-        <div className="container-fluid">
-          <div className="row min-vh-100">
-          
-            <nav id="site-sidenav" className="col-md-2 p-0 bg-dark flex-grow-1">
-              {user !== null  && <UserCard user={user}/>}
-              <SideNav user={user} setUser={setUser}/>
-            </nav>
-            
-            <main className="col p-0 bg-light">
-              <Navbar user={user} setUser={setUser} />
-              <Switch>
-                <Route path="/login">
-                  {user !== null ? <Redirect to="/" /> : <LoginForm user={user} setUser={setUser}/>}
-                </Route>
-                <Route path="/score">
-                  {user === null ? <Redirect to="/login" /> : <ScoreCard user={user} teams={teams} scoreCard={scoreCard} addResult={addResult} />}
-                </Route>
-                <Route path="/teams">
-                  {user === null ? <Redirect to="/login" /> : <TeamList user={user} teams={teams} setTeams={setTeams} />}
-                </Route>
-                <Route path="/judges">
-                  {user === null ? <Redirect to="/login" /> : <JudgeList user={user} users={users} setUsers={setUsers} />}
-                </Route>
-                <Route path="/:company/results">
-                  {user === null ? <Redirect to="/login" /> : <ScoreResults user={user} scoreResults={scoreResults} setScoreResults={setScoreResults} />}
-                </Route>
-                <Route path="/setup">
-                  {user === null ? <Redirect to="/login" /> : <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />}
-                </Route>
-                <Route path="/profile">
-                  {user === null ? <Redirect to="/login" /> : <ProfileForm user={user} setUser={setUser}/>}
-                </Route>
-                <Route path="/register">
-                  {user !== null ? <Redirect to="/" /> : <RegisterForm user={user} setUser={setUser}/>}
-                </Route>
-                <Route path="/">
-                  {user === null ? <Redirect to="/login" /> : <ResultList user={user} results={results} setResults={setResults} />}
-                </Route>
-              </Switch>
-            </main>
-          </div>
-        </div>
-      </Router>
+    <div className="container-fluid">
+      <div className="row min-vh-100">
+      
+        <nav id="site-sidenav" className="col-md-2 p-0 bg-dark flex-grow-1">
+          <UserCard user={user}/>
+          <SideNav user={user}/>
+        </nav>
+        
+        <main className="col p-0 bg-light">
+        <Switch>
+            <PrivateRoute path="/score">
+              <ScoreCard user={user} teams={teams} scoreCard={scoreCard} addResult={addResult} />
+            </PrivateRoute>
+            <PrivateRoute path="/teams">
+              <TeamList user={user} teams={teams} setTeams={setTeams} />
+            </PrivateRoute>
+            <PrivateRoute path="/judges">
+              <JudgeList user={user} users={users} setUsers={setUsers} />
+            </PrivateRoute>
+            <PrivateRoute path="/:company/results">
+              <ScoreResults user={user} scoreResults={scoreResults} setScoreResults={setScoreResults} />
+            </PrivateRoute>
+            <PrivateRoute path="/setup">
+              <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />
+            </PrivateRoute>
+            <PrivateRoute path="/default">
+              <ScoreCardForm user={user} scoreCard={scoreCard} setScoreCard={setScoreCard} />
+            </PrivateRoute>
+            <Route path="/results">
+              <ResultList user={user} results={results} setResults={setResults} />
+            </Route>
+          </Switch>
+        </main>
+      </div>
+    </div>
   );
 }
 
