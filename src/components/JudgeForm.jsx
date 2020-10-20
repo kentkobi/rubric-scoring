@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, {useState} from 'react'
-import userService from '../services/users'
-import tokenUtil from '../utils/token'
 
 const JudgeForm = ({judge, assignToGroup}) => {
     const existingGroup = (judge.user_metadata && judge.user_metadata.assigned) ? judge.user_metadata.assigned : ''

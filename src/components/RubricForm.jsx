@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 
-const RubricForm = ({scoreCard, addRubric, user}) => {
-    const [errorMessage, setErrorMessage] = useState('')
+const RubricForm = ({addRubric}) => {
     const [rubricName, setRubricName] = useState('')
     const updateField = (event) => {
         setRubricName(event.target.value)
@@ -18,8 +17,6 @@ const RubricForm = ({scoreCard, addRubric, user}) => {
 
     return (
         <div className="card rubric">
-            {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
-
             <form onSubmit={formHandler}>
                 <div class="form-row card-header">
                     <div class="form-group col-md-10 mb-0">
@@ -30,7 +27,6 @@ const RubricForm = ({scoreCard, addRubric, user}) => {
                     </div>
                 </div>
             </form>
-            
         </div>
     )
 }

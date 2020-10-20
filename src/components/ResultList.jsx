@@ -1,7 +1,6 @@
 import React from 'react'
 import ResultItem from './ResultItem'
 import resultsService from '../services/scores'
-import {useParams} from 'react-router-dom'
 
 const ResultList = ({user, results, setResults}) => {
 

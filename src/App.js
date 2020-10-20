@@ -19,12 +19,11 @@ import JudgeList from "./components/JudgeList"
 
 /* modules */
 import SideNav from "./modules/SideNav"
+import Welcome from "./modules/Welcome"
 
 import {
-  BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect
+  Route
 } from "react-router-dom"
 import Loading from "./components/Loading";
 
@@ -36,7 +35,7 @@ const App = () => {
   const [scoreCard, setScoreCard] = useState(null)
   const [defaultScoreCard, setDefaultScoreCard] = useState(null)
 
-  const {user, isAuthenticated, loginWithRedirect, logout, getAccessTokenSilently} = useAuth0()
+  const {user, isAuthenticated} = useAuth0()
 
   const addResult = (team, judge, scores) => {
     const scoreEntry = {
@@ -51,49 +50,44 @@ const App = () => {
         setResults([data, ...results])
       })
   }
-
-  const updateScoreCard = (scoreCard) => {
-    scoreCardsService.update(scoreCard, user)
-      .then(data => {
-        setScoreCard(data)
-      })
-  }
   
   useEffect(() => {
+    /* grab all the student teams to be judged */
     teamsService.getAll()
         .then((results) => {
           setTeams(results)
       })
 
+    /* grab all the judges or potential judges */
     usersService.getAll()
       .then((results) => {
         setUsers(results)
     })
 
+    /* grab the default scoring rubric */
     scoreCardsService.getByCompany('default')
         .then((scorecard) => {
             setDefaultScoreCard(scorecard)  
         })
   }, [])
 
-  const getUserToken = async () => {
-    const token = await getAccessTokenSilently();
-    window.localStorage.setItem('token', token)
-    return token
-  }
-
   useEffect(() => {
-    console.log('user',user)
     const assignedTo = (user && 
         user[process.env.REACT_APP_AUTH0_USER_META_URL] && 
         user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned) 
       ? user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned
       : null
+    if(user){
+      user.assigned = "Optus"
+      //user.assigned = assignedTo
+    }
+  }, [user])
 
-    if(user && assignedTo) {
-      user.assigned = assignedTo
-
-      scoreCardsService.getByCompany(assignedTo)
+  useEffect(() => {
+    console.log('user',user)
+    
+    if(user && user.assigned ) {
+      scoreCardsService.getByCompany(user.assigned)
         .then((scorecard) => {
             if (scorecard.rubrics && scorecard.rubrics.length){
               console.log(scorecard.rubrics.length, "has a scorecard!")
@@ -104,34 +98,17 @@ const App = () => {
             } 
         })
 
-      scoresService.getByCompany(assignedTo)
+      scoresService.getByCompany(user.assigned)
         .then((results) => {
             setResults(results)
         })
 
-      scoresService.getResultsByCompany(assignedTo)
+      scoresService.getResultsByCompany(user.assigned)
         .then((results) => {
             setScoreResults(results)
         })
     }
-  }, [user])
-
-  useEffect(() => {
-    const assignedTo = (user && 
-      user[process.env.REACT_APP_AUTH0_USER_META_URL] && 
-      user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned) 
-    ? user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned
-    : null
-
-    if(user && assignedTo) {
-      user.assigned = assignedTo
-
-      scoresService.getResultsByCompany(assignedTo)
-        .then((results) => {
-            setScoreResults(results)
-        })
-    }
-  }, [results])
+  }, [user, defaultScoreCard])
 
   const {isLoading} = useAuth0()
 
@@ -170,6 +147,9 @@ const App = () => {
             </PrivateRoute>
             <Route path="/results">
               <ResultList user={user} results={results} setResults={setResults} />
+            </Route>
+            <Route path="/">
+              <Welcome user={user} />
             </Route>
           </Switch>
         </main>

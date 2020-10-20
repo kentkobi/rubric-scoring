@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import ScoreResultItem from './ScoreResultItem'
 
-const ScoreResults = ( {user, scoreResults, setScoreResults} ) => {
-    const [errorMessage, setErrorMessage] = useState('')
-console.log(scoreResults)
+const ScoreResults = ( {user, scoreResults} ) => {
     return (
         <div>
-            {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
             <ul className="list-group list-group-flush bg-white border rounded">
                 {scoreResults && scoreResults.map((result, index) => (
                     <ScoreResultItem key={result.id} index={index+1} result={result} user={user} />

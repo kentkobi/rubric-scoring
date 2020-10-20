@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import CriteriaForm from './CriteriaForm'
 import CriteriaItem from './CriteriaItem'
 import scoreCardsService from '../services/scorecards'

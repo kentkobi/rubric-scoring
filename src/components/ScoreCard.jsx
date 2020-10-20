@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Rubric from './Rubric'
 
 const ScoreCard = ( {user, teams, scoreCard, addResult} ) => {

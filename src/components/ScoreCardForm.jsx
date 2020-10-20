@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import RubricForm from './RubricForm'
 import RubricItem from './RubricItem'
 import scoreCardsService from '../services/scorecards'
 
 const ScoreCard = ( {user, scoreCard, setScoreCard} ) => {
-    const [errorMessage, setErrorMessage] = useState('')
      
     const addRubric = async (rubric) => {
         const newScoreCard = scoreCard
@@ -26,8 +25,6 @@ const ScoreCard = ( {user, scoreCard, setScoreCard} ) => {
 
     return (
         <div className="">
-            {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
-            
             {scoreCard.rubrics && scoreCard.rubrics.map((rubric, i) =>   
                 <RubricItem key={i} index={i} scoreCard={scoreCard} setScoreCard={setScoreCard} rubric={rubric} removeRubric={removeRubric}/>
             )}

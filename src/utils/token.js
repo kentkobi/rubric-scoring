@@ -1,9 +1,5 @@
-import { useAuth0 } from '@auth0/auth0-react';
-
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-
-
 
 const pemCert = `-----BEGIN CERTIFICATE-----
 MIIDDTCCAfWgAwIBAgIJB/vH9z4UoaWFMA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV

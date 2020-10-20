@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 
 const TeamForm = ({addTeam, user}) => {
-    const [errorMessage, setErrorMessage] = useState('')
     const [teamName, setTeamName] = useState('')
     const updateField = (event) => {
         setTeamName(event.target.value)
@@ -17,8 +16,6 @@ const TeamForm = ({addTeam, user}) => {
 
     return (
         <div className="card rubric">
-            {errorMessage && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
-
             <form onSubmit={formHandler}>
                 <div class="form-row card-header">
                     <div class="form-group col-md-10 mb-0">
@@ -28,8 +25,7 @@ const TeamForm = ({addTeam, user}) => {
                         <input type='submit' className="btn btn-primary" value='Add Team' />
                     </div>
                 </div>
-            </form>
-            
+            </form>     
         </div>
     )
 }

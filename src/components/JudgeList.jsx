@@ -5,17 +5,8 @@ import usersService from '../services/users'
 const ProfileList = ({user, users, setUsers}) => {
 
     const assignToGroup = async (user_id, group) => {
-        const savedUser = await usersService.assignToGroup(user_id, group)
-        //setUsers([...users, savedUser])
+        await usersService.assignToGroup(user_id, group)
     }
-
-    /*const deleteResult = (team) => {
-        usersService.delete(team, user)
-            .then(data => {
-                const updatedTeams = teams.filter(p => p.id !== team.id)
-                setTeams(updatedTeams)
-            })
-    }*/
 
     return(
         <div>
