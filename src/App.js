@@ -78,8 +78,8 @@ const App = () => {
       ? user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned
       : null
     if(user){
-      user.assigned = "Optus"
-      //user.assigned = assignedTo
+      //user.assigned = "Optus"
+      user.assigned = assignedTo
     }
   }, [user])
 
