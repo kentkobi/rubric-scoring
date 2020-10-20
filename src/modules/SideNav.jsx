@@ -19,14 +19,16 @@ const UserSideNav = ({user}) => {
                             <Link to="/results" className="list-group-item list-group-item-action bg-dark text-primary"><FaList /> MY SCORES</Link>
                         </div>
                     }
-                    
-                    <hr />
-                    <h5 className="list-group-item list-group-item-action bg-dark text-primary">ADMIN</h5>
-                    <Link to="/default" className="list-group-item list-group-item-action bg-dark text-primary"><FaListAlt /> DEFAULT SCORECARD</Link>
-                    <Link to="/teams" className="list-group-item list-group-item-action bg-dark text-primary"><FaUserEdit /> CREATE TEAMS</Link>
-                    <Link to="/judges" className="list-group-item list-group-item-action bg-dark text-primary"><FaUsersCog /> ASSIGN JUDGES</Link>
-
                     <a className="list-group-item list-group-item-action bg-dark" href="/logout" onClick={e => logout()}><RiLogoutCircleLine /> LOG OUT</a>
+                    
+                    {user && user.roles && user.roles.includes("Admin") &&
+                        <div className="admin-controls">
+                            <h5 className="list-group-item list-group-item-action bg-dark text-primary">ADMIN CONTROLS</h5>
+                            <Link to="/default" className="list-group-item list-group-item-action bg-dark text-primary"><FaListAlt /> DEFAULT SCORECARD</Link>
+                            <Link to="/teams" className="list-group-item list-group-item-action bg-dark text-primary"><FaUserEdit /> CREATE TEAMS</Link>
+                            <Link to="/judges" className="list-group-item list-group-item-action bg-dark text-primary"><FaUsersCog /> ASSIGN JUDGES</Link>
+                        </div>
+                    }   
                 </div>
             } 
             {!isAuthenticated &&
