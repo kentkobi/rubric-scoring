@@ -14,7 +14,7 @@ const UserSideNav = ({user}) => {
                     {user && user.assigned &&
                         <div className="judge-controls">
                             <Link to="/score" className="list-group-item list-group-item-action bg-dark text-primary"><FaEdit /> ENTER A SCORE</Link>
-                            <Link to={`/${user.assigned}/results`} className="list-group-item list-group-item-action bg-dark text-primary"><FaMedal /> SCORE RESULTS</Link>
+                            <Link to={`/${user.assigned}/results`} className="list-group-item list-group-item-action bg-dark text-primary"><FaMedal /> LEADERBOARD</Link>
                             <Link to="/setup" className="list-group-item list-group-item-action bg-dark text-primary"><FaListAlt /> EDIT SCORECARD</Link>
                             <Link to="/results" className="list-group-item list-group-item-action bg-dark text-primary"><FaList /> MY SCORES</Link>
                         </div>
