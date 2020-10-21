@@ -78,11 +78,9 @@ const App = () => {
       ? user[process.env.REACT_APP_AUTH0_USER_META_URL].assigned
       : null
 
-      const userRoles = (user && 
-        user[process.env.REACT_APP_AUTH0_USER_ROLES_URL] && 
-        user[process.env.REACT_APP_AUTH0_USER_ROLES_URL].roles) 
-      ? user[process.env.REACT_APP_AUTH0_USER_ROLES_URL].roles
-      : null
+      const userRoles = (user && user[process.env.REACT_APP_AUTH0_USER_ROLES_URL]) 
+        ? user[process.env.REACT_APP_AUTH0_USER_ROLES_URL]
+        : null
     if(user){
       //user.assigned = "Optus"
       //user.roles = ["Admin"]
